@@ -1,0 +1,1453 @@
+"""
+18-Page Academic Case Study Generator (PDF + DOCX) for Question Q3
+Project: MONGODB ATLAS CONFIGURATION AND STUDENT RECORD STORAGE USING EXPRESS.JS
+Student: P. Dinesh Kumar (A24126552101)
+Institution: Anil Neerukonda Institute of Technology & Sciences (ANITS)
+Course: Full-Stack Web Development (23CM4121) | Unit V
+"""
+
+import os
+import subprocess
+import pypdf
+from docx import Document
+from docx.shared import Inches, Pt, RGBColor
+from docx.enum.text import WD_ALIGN_PARAGRAPH
+from docx.enum.table import WD_TABLE_ALIGNMENT
+from docx.oxml import OxmlElement, parse_xml
+from docx.oxml.ns import nsdecls, qn
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+HTML_PATH = os.path.join(BASE_DIR, "Case-Study-Question-3.html")
+PDF_PATH = os.path.join(BASE_DIR, "Case-Study-Question-3.pdf")
+DOCX_PATH = os.path.join(BASE_DIR, "Case-Study-Question-3.docx")
+EDGE_EXE = r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
+
+diagrams_dir = os.path.join(BASE_DIR, "diagrams").replace("\\", "/")
+screenshots_dir = os.path.join(BASE_DIR, "screenshots").replace("\\", "/")
+
+# ----------------------------------------------------------------------
+# 1. HTML Content Generation (Target: EXACTLY 18 Pages)
+# ----------------------------------------------------------------------
+def generate_html_content():
+    # Each page is wrapped in an explicit container or followed by a .page-break
+    return f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>MongoDB Atlas Configuration and Student Record Storage Using Express.js - Case Study Q3</title>
+<style>
+  @page {{
+    size: A4;
+    margin: 15mm 16mm 15mm 16mm;
+  }}
+
+  body {{
+    font-family: 'Segoe UI', Arial, sans-serif;
+    color: #1f2937;
+    line-height: 1.45;
+    font-size: 9.5pt;
+    margin: 0;
+    padding: 0;
+  }}
+
+  .running-header {{
+    border-bottom: 1.5px solid #0f2942;
+    padding-bottom: 4px;
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 8pt;
+    font-weight: 700;
+    color: #0f2942;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }}
+
+  .running-footer {{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border-top: 1px solid #cbd5e1;
+    padding-top: 4px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 8pt;
+    color: #64748b;
+  }}
+
+  .page {{
+    page-break-after: always;
+    height: 260mm;
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+  }}
+
+  .page-last {{
+    height: 260mm;
+    box-sizing: border-box;
+    position: relative;
+  }}
+
+  /* Headings */
+  h1.doc-title {{
+    color: #0f2942;
+    font-size: 17pt;
+    font-weight: 800;
+    text-align: center;
+    margin: 8px 0 4px 0;
+    line-height: 1.25;
+  }}
+
+  h2.doc-subtitle {{
+    color: #0369a1;
+    font-size: 11.5pt;
+    font-weight: 600;
+    text-align: center;
+    margin: 0 0 14px 0;
+  }}
+
+  h2.section-heading {{
+    color: #0f2942;
+    font-size: 12pt;
+    font-weight: 700;
+    border-bottom: 2px solid #0284c7;
+    padding-bottom: 3px;
+    margin-top: 10px;
+    margin-bottom: 8px;
+  }}
+
+  h3.subsection-heading {{
+    color: #0369a1;
+    font-size: 10.5pt;
+    font-weight: 600;
+    margin-top: 10px;
+    margin-bottom: 4px;
+  }}
+
+  p {{
+    margin: 0 0 7px 0;
+    text-align: justify;
+  }}
+
+  ul, ol {{
+    margin: 0 0 8px 0;
+    padding-left: 18px;
+  }}
+
+  li {{
+    margin-bottom: 3px;
+  }}
+
+  /* Cover Page */
+  .cover-box {{
+    border: 3px double #0f2942;
+    padding: 22px 18px;
+    height: 250mm;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: center;
+  }}
+
+  .inst-header {{
+    font-size: 14pt;
+    font-weight: 800;
+    color: #0f2942;
+    letter-spacing: 0.02em;
+    margin: 0;
+  }}
+
+  .inst-sub {{
+    font-size: 9pt;
+    color: #4b5563;
+    margin: 3px 0 0 0;
+  }}
+
+  .dept-title {{
+    font-size: 11pt;
+    font-weight: 700;
+    color: #0369a1;
+    margin-top: 10px;
+    border-top: 1px solid #cbd5e1;
+    border-bottom: 1px solid #cbd5e1;
+    padding: 5px 0;
+  }}
+
+  .lab-banner {{
+    margin: 18px 0 12px 0;
+    padding: 8px 12px;
+    background: #f0f9ff;
+    border-left: 4px solid #0284c7;
+    border-right: 4px solid #0284c7;
+  }}
+
+  .lab-course {{
+    font-size: 11.5pt;
+    font-weight: 700;
+    color: #0f2942;
+    margin: 0;
+  }}
+
+  .lab-meta {{
+    font-size: 9pt;
+    color: #334155;
+    margin-top: 2px;
+  }}
+
+  .case-study-badge {{
+    display: inline-block;
+    background: #0f2942;
+    color: #ffffff;
+    font-size: 10.5pt;
+    font-weight: 700;
+    padding: 4px 16px;
+    border-radius: 16px;
+    letter-spacing: 0.04em;
+    margin-bottom: 10px;
+  }}
+
+  .question-highlight-box {{
+    background: #f8fafc;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 6px;
+    padding: 12px 16px;
+    margin: 12px 0;
+    text-align: left;
+    font-size: 9.5pt;
+  }}
+
+  .student-table {{
+    width: 92%;
+    margin: 15px auto;
+    border-collapse: collapse;
+    text-align: left;
+    font-size: 9.5pt;
+  }}
+
+  .student-table th {{
+    background: #f1f5f9;
+    color: #0f2942;
+    padding: 7px 12px;
+    border: 1px solid #cbd5e1;
+    width: 32%;
+  }}
+
+  .student-table td {{
+    padding: 7px 12px;
+    border: 1px solid #cbd5e1;
+    color: #1e293b;
+    font-weight: 600;
+  }}
+
+  /* Data Table */
+  table.data-table {{
+    width: 100%;
+    border-collapse: collapse;
+    margin: 8px 0 10px 0;
+    font-size: 8.5pt;
+  }}
+
+  table.data-table th {{
+    background: #0f2942;
+    color: #ffffff;
+    font-weight: 600;
+    padding: 6px 8px;
+    border: 1px solid #cbd5e1;
+    text-align: left;
+  }}
+
+  table.data-table td {{
+    padding: 5px 8px;
+    border: 1px solid #e2e8f0;
+    vertical-align: top;
+  }}
+
+  table.data-table tr:nth-child(even) {{
+    background: #f8fafc;
+  }}
+
+  /* Code Block */
+  pre.code-block {{
+    background: #0f172a;
+    color: #f8fafc;
+    padding: 8px 12px;
+    border-radius: 5px;
+    font-family: 'Consolas', monospace;
+    font-size: 8pt;
+    line-height: 1.4;
+    overflow-x: auto;
+    margin: 6px 0 8px 0;
+    border: 1px solid #334155;
+  }}
+
+  code.inline {{
+    background: #e2e8f0;
+    color: #0f2942;
+    padding: 1px 4px;
+    border-radius: 3px;
+    font-family: 'Consolas', monospace;
+    font-size: 8.5pt;
+  }}
+
+  .callout {{
+    padding: 8px 12px;
+    border-radius: 5px;
+    margin: 8px 0 10px 0;
+    font-size: 8.5pt;
+  }}
+
+  .callout-info {{
+    background: #eff6ff;
+    border-left: 4px solid #3b82f6;
+    color: #1e3a8a;
+  }}
+
+  .callout-success {{
+    background: #ecfdf5;
+    border-left: 4px solid #10b981;
+    color: #064e3b;
+  }}
+
+  .figure-box {{
+    text-align: center;
+    margin: 10px 0;
+  }}
+
+  .figure-box img {{
+    max-width: 95%;
+    max-height: 160mm;
+    height: auto;
+    border: 1px solid #cbd5e1;
+    border-radius: 5px;
+  }}
+
+  .figure-caption {{
+    font-size: 8pt;
+    color: #475569;
+    font-weight: 600;
+    margin-top: 4px;
+  }}
+
+  .grid-2 {{
+    display: flex;
+    gap: 10px;
+  }}
+
+  .grid-col {{
+    flex: 1;
+  }}
+</style>
+</head>
+<body>
+
+  <!-- ============================================================== -->
+  <!-- PAGE 1: COVER PAGE -->
+  <!-- ============================================================== -->
+  <div class="page">
+    <div class="cover-box">
+      <div>
+        <div class="inst-header">ANIL NEERUKONDA INSTITUTE OF TECHNOLOGY &amp; SCIENCES</div>
+        <div class="inst-sub">(UGC Autonomous, Affiliated to Andhra University, Accredited by NAAC with 'A+' Grade &amp; NBA)</div>
+        <div class="inst-sub">Sangivalasa, Bheemunipatnam Mandal, Visakhapatnam - 531162, Andhra Pradesh</div>
+
+        <div class="dept-title">DEPARTMENT OF COMPUTER SCIENCE AND ENGINEERING</div>
+
+        <div class="lab-banner">
+          <div class="lab-course">FULL-STACK WEB DEVELOPMENT LAB (23CM4121)</div>
+          <div class="lab-meta">B.Tech - III Year I Semester | Academic Year: 2025–2026 | Unit V Worked Case Study</div>
+        </div>
+
+        <div style="margin-top: 14px;">
+          <span class="case-study-badge">UNIT V WORKED CASE STUDY REPORT</span>
+          <h1 class="doc-title">MONGODB ATLAS CONFIGURATION AND STUDENT RECORD STORAGE USING EXPRESS.JS</h1>
+          <h2 class="doc-subtitle">Cloud Database Provisioning, Mongoose Schema Architecture, and REST Connectivity</h2>
+        </div>
+
+        <div class="question-highlight-box">
+          <strong>Assigned Question (Question No. 3):</strong><br>
+          <em>"Explain how MongoDB Atlas is configured to store student records. Describe the steps involved in creating a database, collection and connecting the Express.js backend to the database."</em>
+          <div style="margin-top: 5px; font-size: 8pt; color: #475569;">
+            <strong>Target Cloud Database:</strong> <code class="inline">StudentDB</code> &nbsp;|&nbsp;
+            <strong>Target Collection:</strong> <code class="inline">students</code> &nbsp;|&nbsp;
+            <strong>Course Outcome:</strong> CO-1 / CO-5 (Understand &amp; Apply)
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <table class="student-table">
+          <tr>
+            <th>Student Name</th>
+            <td>P. DINESH KUMAR</td>
+          </tr>
+          <tr>
+            <th>Student Roll Number</th>
+            <td>A24126552101</td>
+          </tr>
+          <tr>
+            <th>Branch &amp; Section</th>
+            <td>Computer Science &amp; Engineering</td>
+          </tr>
+          <tr>
+            <th>Allocated Question</th>
+            <td>Question No. 3 (Unit V Worked Case Study)</td>
+          </tr>
+          <tr>
+            <th>Academic Year</th>
+            <td>2025–2026 (Autonomous Curriculum)</td>
+          </tr>
+        </table>
+
+        <div style="margin-top: 10px; font-size: 8pt; color: #64748b; border-top: 1px solid #e2e8f0; padding-top: 6px;">
+          Practical Implementation • Cloud Verified on MongoDB Atlas M0 Cluster • Express.js 4.21 • Mongoose 8.9
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- PAGE 2: TABLE OF CONTENTS & EXECUTIVE SUMMARY -->
+  <!-- ============================================================== -->
+  <div class="page">
+    <div class="running-header">
+      <span>ANITS • Dept. of CSE • Full-Stack Web Development (23CM4121)</span>
+      <span>Case Study Report: Question Q3</span>
+    </div>
+
+    <h2 class="section-heading">TABLE OF CONTENTS</h2>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th style="width: 10%;">Sec #</th>
+          <th style="width: 76%;">Academic Section &amp; Topic Title</th>
+          <th style="width: 14%;">Page No.</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>1.0</td><td><strong>Aim and Objectives of the Case Study</strong></td><td>Page 3</td></tr>
+        <tr><td>2.0</td><td><strong>Introduction &amp; Theoretical Background: Cloud vs. Local Databases</strong></td><td>Page 3</td></tr>
+        <tr><td>3.0</td><td><strong>System Requirements &amp; Software Environment</strong></td><td>Page 4</td></tr>
+        <tr><td>4.0</td><td><strong>End-to-End System Architecture (3-Tier Cloud Topology)</strong></td><td>Page 5</td></tr>
+        <tr><td>5.0</td><td><strong>MongoDB Atlas Cloud Infrastructure &amp; Core Principles</strong></td><td>Page 6</td></tr>
+        <tr><td>6.0</td><td><strong>Detailed 6-Step MongoDB Atlas Configuration Guide</strong></td><td>Page 7</td></tr>
+        <tr><td>6.1</td><td>&nbsp;&nbsp;• Steps 1 &amp; 2: Account Creation &amp; Provisioning M0 Shared Cluster</td><td>Page 7</td></tr>
+        <tr><td>6.2</td><td>&nbsp;&nbsp;• Steps 3 &amp; 4: Database User Security &amp; Network IP Allowlisting</td><td>Page 8</td></tr>
+        <tr><td>6.3</td><td>&nbsp;&nbsp;• Steps 5 &amp; 6: Database/Collection Creation &amp; DNS SRV Extraction</td><td>Page 9</td></tr>
+        <tr><td>7.0</td><td><strong>Connection Sequence Flow &amp; SRV Seedlist Protocol Analysis</strong></td><td>Page 10</td></tr>
+        <tr><td>8.0</td><td><strong>Express.js Backend Architecture &amp; Implementation</strong></td><td>Page 11</td></tr>
+        <tr><td>8.1</td><td>&nbsp;&nbsp;• Modular Directory Structure &amp; Database Connection (<code class="inline">config/db.js</code>)</td><td>Page 11</td></tr>
+        <tr><td>8.2</td><td>&nbsp;&nbsp;• Student Mongoose Schema (<code class="inline">studentModel.js</code>) &amp; Controller Actions</td><td>Page 12</td></tr>
+        <tr><td>8.3</td><td>&nbsp;&nbsp;• REST Routes Mapping (<code class="inline">studentRoutes.js</code>) &amp; Server Entrypoint (<code class="inline">server.js</code>)</td><td>Page 13</td></tr>
+        <tr><td>9.0</td><td><strong>Frontend Client Demonstration Interface (<code class="inline">HTML/CSS/JS</code>)</strong></td><td>Page 14</td></tr>
+        <tr><td>10.0</td><td><strong>REST API Endpoint Specification &amp; Testing Matrix</strong></td><td>Page 15</td></tr>
+        <tr><td>11.0</td><td><strong>Practical Verification, Console Output &amp; Cloud Screenshots</strong></td><td>Page 16</td></tr>
+        <tr><td>12.0</td><td><strong>Security Best Practices, Connection Pooling &amp; Error Handling</strong></td><td>Page 17</td></tr>
+        <tr><td>13.0</td><td><strong>Learning Outcomes, Concluding Summary &amp; References</strong></td><td>Page 18</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout callout-info" style="margin-top: 14px;">
+      <strong>Executive Summary:</strong> This academic case study report fulfills the requirements of Question 3 under Unit V of the Full-Stack Web Development syllabus (Course Code: 23CM4121). The assignment focuses strictly on configuring MongoDB Atlas to store student records, creating the <code class="inline">StudentDB</code> database and <code class="inline">students</code> collection, connecting an Express.js backend via Mongoose ODM over TLS/SSL, and validating reliable record persistence and retrieval without building an overcomplicated administrative platform.
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- PAGE 3: AIM, OBJECTIVES & THEORETICAL OVERVIEW -->
+  <!-- ============================================================== -->
+  <div class="page">
+    <div class="running-header">
+      <span>ANITS • Dept. of CSE • Full-Stack Web Development (23CM4121)</span>
+      <span>Case Study Report: Question Q3</span>
+    </div>
+
+    <h2 class="section-heading">1.0 AIM AND OBJECTIVES</h2>
+    <h3 class="subsection-heading">1.1 Primary Aim</h3>
+    <p>
+      To configure a cloud-hosted <strong>MongoDB Atlas</strong> database cluster, provision a dedicated database named <code class="inline">StudentDB</code> and collection named <code class="inline">students</code>, establish an authenticated, resilient connection to an <strong>Express.js</strong> backend using Mongoose ODM, and demonstrate reliable student record insertion and retrieval.
+    </p>
+
+    <h3 class="subsection-heading">1.2 Learning Objectives</h3>
+    <ul>
+      <li><strong>Cloud Provisioning:</strong> Provision an automated, multi-Availability Zone shared M0 cluster in the AWS Mumbai (<code class="inline">ap-south-1</code>) cloud region.</li>
+      <li><strong>Security Hardening:</strong> Configure Role-Based Access Control (RBAC) with SCRAM-SHA-256 user authentication and CIDR network IP allowlisting.</li>
+      <li><strong>DNS SRV Resolution:</strong> Analyze the mechanics of <code class="inline">mongodb+srv://</code> seedlist connection strings for dynamic replica node discovery.</li>
+      <li><strong>Mongoose Integration:</strong> Implement modular connection management with lifecycle listeners (<code class="inline">connected</code>, <code class="inline">error</code>, <code class="inline">disconnected</code>).</li>
+      <li><strong>Schema Enforcement:</strong> Model a student schema enforcing institutional roll number uniqueness, email regex, department enums, and academic year bounds.</li>
+    </ul>
+
+    <h2 class="section-heading">2.0 INTRODUCTION &amp; THEORETICAL BACKGROUND</h2>
+    <p>
+      In web application architecture, databases serve as the persistent storage layer. Traditionally, developers executed standalone database instances locally (such as <code class="inline">mongod</code> running on <code class="inline">localhost:27017</code>). While convenient for initial prototyping, local databases lack high availability, automated failover, managed backups, and public network accessibility required for modern web deployments.
+    </p>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th style="width: 25%;">Evaluation Metric</th>
+          <th style="width: 37%;">Local Standalone MongoDB (<code class="inline">localhost</code>)</th>
+          <th style="width: 38%;">MongoDB Atlas Cloud Cluster</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>High Availability</strong></td>
+          <td>Single point of failure; process crash halts database.</td>
+          <td>3-node replica set with automated sub-second failover.</td>
+        </tr>
+        <tr>
+          <td><strong>Network Reach</strong></td>
+          <td>Restricted to local loopback; external servers blocked.</td>
+          <td>Globally reachable via encrypted TLS 1.3 endpoints.</td>
+        </tr>
+        <tr>
+          <td><strong>Disaster Recovery</strong></td>
+          <td>Manual backup scripts required (<code class="inline">mongodump</code>).</td>
+          <td>Continuous cloud snapshots and point-in-time recovery.</td>
+        </tr>
+        <tr>
+          <td><strong>Access Control</strong></td>
+          <td>Frequently runs unauthenticated in development.</td>
+          <td>Mandatory SCRAM-SHA-256 auth &amp; IP allowlist firewall.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- PAGE 4: REQUIREMENTS & ENVIRONMENT -->
+  <!-- ============================================================== -->
+  <div class="page">
+    <div class="running-header">
+      <span>ANITS • Dept. of CSE • Full-Stack Web Development (23CM4121)</span>
+      <span>Case Study Report: Question Q3</span>
+    </div>
+
+    <h2 class="section-heading">3.0 SYSTEM REQUIREMENTS &amp; ENVIRONMENT</h2>
+    <p>
+      The case study implementation utilizes industry-standard software tools and minimum hardware configurations:
+    </p>
+
+    <h3 class="subsection-heading">3.1 Hardware &amp; Operating Environment</h3>
+    <ul>
+      <li><strong>Processor:</strong> Intel Core i5 / AMD Ryzen 5 or higher (x86_64 architecture).</li>
+      <li><strong>Primary Memory:</strong> Minimum 8 GB RAM (16 GB recommended for concurrent Node.js runtime and browser).</li>
+      <li><strong>Operating System:</strong> Microsoft Windows 11 64-bit / Linux Ubuntu 22.04 LTS.</li>
+      <li><strong>Network Connectivity:</strong> Outbound HTTPS (Port 443) and MongoDB TCP (Port 27017) internet access.</li>
+    </ul>
+
+    <h3 class="subsection-heading">3.2 Software Environment &amp; Dependency Stack</h3>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Software / Library</th>
+          <th>Version</th>
+          <th>Architectural Purpose</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Node.js</strong></td>
+          <td>v20+ LTS</td>
+          <td>Asynchronous server-side JavaScript runtime engine.</td>
+        </tr>
+        <tr>
+          <td><strong>Express.js</strong></td>
+          <td>v4.21.2</td>
+          <td>HTTP server framework providing REST routing, JSON parsing, and static hosting.</td>
+        </tr>
+        <tr>
+          <td><strong>Mongoose ODM</strong></td>
+          <td>v8.9.5</td>
+          <td>Object Data Modeling library providing schema validation, B-Tree indexes, and connection pooling.</td>
+        </tr>
+        <tr>
+          <td><strong>MongoDB Atlas</strong></td>
+          <td>v7.0 Cloud</td>
+          <td>Managed cloud database service hosting the <code class="inline">StudentDB</code> database and <code class="inline">students</code> collection.</td>
+        </tr>
+        <tr>
+          <td><strong>Dotenv</strong></td>
+          <td>v16.4.7</td>
+          <td>Loads sensitive credentials from <code class="inline">.env</code> into <code class="inline">process.env</code> securely.</td>
+        </tr>
+        <tr>
+          <td><strong>CORS</strong></td>
+          <td>v2.8.5</td>
+          <td>Cross-Origin Resource Sharing middleware enabling secure cross-origin REST requests.</td>
+        </tr>
+        <tr>
+          <td><strong>Frontend Client</strong></td>
+          <td>HTML5/CSS3/ES6</td>
+          <td>Clean demonstration UI providing dynamic record entry, live health status, and records table.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- PAGE 5: SYSTEM ARCHITECTURE -->
+  <!-- ============================================================== -->
+  <div class="page">
+    <div class="running-header">
+      <span>ANITS • Dept. of CSE • Full-Stack Web Development (23CM4121)</span>
+      <span>Case Study Report: Question Q3</span>
+    </div>
+
+    <h2 class="section-heading">4.0 END-TO-END SYSTEM ARCHITECTURE</h2>
+    <p>
+      The system follows a 3-tier decoupled architecture separating presentation, business routing, and cloud persistence:
+    </p>
+
+    <div class="figure-box">
+      <img src="{diagrams_dir}/architecture.svg" alt="System Architecture">
+      <div class="figure-caption">Figure 1: High-Level End-to-End System Architecture (Browser ↔ Express.js ↔ MongoDB Atlas)</div>
+    </div>
+
+    <h3 class="subsection-heading">4.1 Architectural Tier Breakdown</h3>
+    <ul>
+      <li><strong>Client Tier (Browser):</strong> Rendered using semantic HTML5, CSS3 styling, and JavaScript Fetch API. Communicates exclusively with the Express backend using asynchronous HTTP/JSON requests.</li>
+      <li><strong>Application Backend Tier (Node.js &amp; Express):</strong> Implements modular controllers and routes. Parses JSON payloads, validates parameters, and delegates database operations to Mongoose ODM.</li>
+      <li><strong>Cloud Database Tier (MongoDB Atlas):</strong> Hosts database <code class="inline">StudentDB</code> within an automated 3-node replica set. Executes B-Tree indexing, enforces unique constraints, and writes BSON documents to persistent cloud storage.</li>
+    </ul>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- PAGE 6: ATLAS INFRASTRUCTURE -->
+  <!-- ============================================================== -->
+  <div class="page">
+    <div class="running-header">
+      <span>ANITS • Dept. of CSE • Full-Stack Web Development (23CM4121)</span>
+      <span>Case Study Report: Question Q3</span>
+    </div>
+
+    <h2 class="section-heading">5.0 MONGODB ATLAS CLOUD INFRASTRUCTURE</h2>
+    <p>
+      MongoDB Atlas is an automated Database-as-a-Service (DBaaS) developed by MongoDB Inc. Unlike raw virtual machine hosting, Atlas abstracts all underlying operating system provisioning, storage volume management, patching, replication configuration, and security hardening.
+    </p>
+
+    <h3 class="subsection-heading">5.1 Replica Set Topology &amp; High Availability</h3>
+    <p>
+      Even within the free M0 Shared tier, Atlas provisions a 3-node replica set comprising one <em>Primary</em> node and two <em>Secondary</em> nodes across distinct fault domains. All write operations (such as inserting a student record) are executed against the Primary node, which records the operation in its idempotent operation log (<code class="inline">oplog</code>). Secondary nodes continuously replicate the oplog, ensuring zero data loss if a node encounters hardware failure.
+    </p>
+
+    <h3 class="subsection-heading">5.2 WiredTiger Storage Engine</h3>
+    <p>
+      The cloud cluster utilizes the WiredTiger engine, featuring document-level concurrency control (multi-version concurrency control - MVCC), prefix compression for B-Tree indexes, and snappy block compression for BSON documents, maximizing I/O throughput.
+    </p>
+
+    <h3 class="subsection-heading">5.3 Cloud Security Foundations</h3>
+    <ul>
+      <li><strong>Transport Layer Security:</strong> All traffic is enforced over TLS 1.3 encryption on outbound port 27017. Plaintext connections are rejected at the network socket.</li>
+      <li><strong>Network Firewall:</strong> A stateful IP Access List denies all traffic by default, blocking packets before reaching the authentication layer.</li>
+      <li><strong>Cryptographic Authentication:</strong> Salted Challenge Response Authentication (SCRAM-SHA-256) authenticates users without sending plaintext credentials over the wire.</li>
+    </ul>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- PAGE 7: ATLAS CONFIGURATION - STEPS 1 & 2 -->
+  <!-- ============================================================== -->
+  <div class="page">
+    <div class="running-header">
+      <span>ANITS • Dept. of CSE • Full-Stack Web Development (23CM4121)</span>
+      <span>Case Study Report: Question Q3</span>
+    </div>
+
+    <h2 class="section-heading">6.0 DETAILED 6-STEP MONGODB ATLAS CONFIGURATION GUIDE</h2>
+    <p>
+      Configuring MongoDB Atlas to store student records follows an established 6-step engineering procedure:
+    </p>
+
+    <h3 class="subsection-heading">6.1 Step 1: Account Creation &amp; Project Workspace Setup</h3>
+    <ol>
+      <li>Navigate to the official MongoDB Cloud portal: <code class="inline">https://cloud.mongodb.com/</code>.</li>
+      <li>Sign up or log in using institutional credentials.</li>
+      <li>Create an Organization (e.g. <code class="inline">ANITS-CSE</code>) to group departmental cloud resources.</li>
+      <li>Create a new Project titled <code class="inline">Student-Records-Q3</code>. Projects serve as security isolation boundaries holding clusters, access rules, and alerting policies.</li>
+      <li>Assign Project Owner permissions to the student profile (<strong>P. Dinesh Kumar</strong>).</li>
+    </ol>
+
+    <h3 class="subsection-heading">6.2 Step 2: Deploying an M0 Shared Replica Set Cluster</h3>
+    <ol>
+      <li>Inside the project dashboard, click the <strong>"Build a Database"</strong> button.</li>
+      <li>Select the <strong>M0 Shared Sandbox Tier</strong>, which provides 512 MB storage, shared vCPUs, and no cloud hosting charges, perfectly suited for educational lab verification.</li>
+      <li>
+        <strong>Cloud Provider &amp; Region:</strong> Select <strong>Amazon Web Services (AWS)</strong> and choose the <strong>Mumbai (<code class="inline">ap-south-1</code>)</strong> region. Selecting the closest physical location minimizes round-trip latency between the Express backend and the database cluster.
+      </li>
+      <li>Name the cluster instance <code class="inline">Cluster0</code> and click <strong>"Create Deployment"</strong>. Atlas provisions the 3-node replica set across availability zones within 1 to 3 minutes.</li>
+    </ol>
+
+    <div class="callout callout-success">
+      <strong>Verification Milestone:</strong> Once deployed, the cluster card transitions from "Creating..." to "Active", showing a healthy 3-node replica set status ready to receive database connections.
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- PAGE 8: ATLAS CONFIGURATION - STEPS 3 & 4 -->
+  <!-- ============================================================== -->
+  <div class="page">
+    <div class="running-header">
+      <span>ANITS • Dept. of CSE • Full-Stack Web Development (23CM4121)</span>
+      <span>Case Study Report: Question Q3</span>
+    </div>
+
+    <h3 class="subsection-heading">6.3 Step 3: Database User Security &amp; SCRAM-SHA-256 Authentication</h3>
+    <p>
+      MongoDB Atlas strictly forbids root access or unauthenticated connections. Database users are separate from Atlas cloud console accounts and are authenticated directly by the database engine:
+    </p>
+    <ol>
+      <li>In the Atlas left sidebar, navigate to <strong>Security &gt; Database Access</strong>.</li>
+      <li>Click <strong>"Add New Database User"</strong>.</li>
+      <li>Select <strong>Password Authentication</strong> (utilizing SCRAM-SHA-256).</li>
+      <li>Specify a dedicated username, such as <code class="inline">dinesh_admin</code>.</li>
+      <li>Generate a cryptographically strong alphanumeric password (e.g. <code class="inline">DineshAtlas#2026</code>).</li>
+      <li>
+        <strong>Role-Based Access Control (RBAC):</strong> Under <em>Database User Privileges</em>, assign the built-in role <strong>"Read and write to any database"</strong> (<code class="inline">readWriteAnyDatabase@admin</code>). This grants permission to insert, query, and modify records inside the target database (<code class="inline">StudentDB</code>).
+      </li>
+      <li>Click <strong>"Add User"</strong> to commit the security credentials to the cluster.</li>
+    </ol>
+
+    <h3 class="subsection-heading">6.4 Step 4: Network Access Security &amp; IP Allowlisting</h3>
+    <p>
+      Atlas enforces an active firewall layer that blocks any IP address not explicitly present on the project's IP Access List:
+    </p>
+    <ol>
+      <li>In the Atlas left sidebar, navigate to <strong>Security &gt; Network Access</strong>.</li>
+      <li>Click <strong>"Add IP Access List Entry"</strong>.</li>
+      <li>Select <strong>"Allow Access from Anywhere"</strong> (<code class="inline">0.0.0.0/0</code>) for dynamic lab and development environments where developer IP addresses change frequently.</li>
+      <li>Set description: <code class="inline">Development allowlist for Express server</code>.</li>
+      <li>Click <strong>"Confirm"</strong>. The firewall rule transitions from <em>Pending</em> to <em>Active</em> within seconds.</li>
+    </ol>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- PAGE 9: ATLAS CONFIGURATION - STEPS 5 & 6 -->
+  <!-- ============================================================== -->
+  <div class="page">
+    <div class="running-header">
+      <span>ANITS • Dept. of CSE • Full-Stack Web Development (23CM4121)</span>
+      <span>Case Study Report: Question Q3</span>
+    </div>
+
+    <h3 class="subsection-heading">6.5 Step 5: Database (<code class="inline">StudentDB</code>) &amp; Collection (<code class="inline">students</code>) Creation</h3>
+    <ol>
+      <li>In the Atlas dashboard, navigate to <strong>Deployments &gt; Database</strong>.</li>
+      <li>Click <strong>"Browse Collections"</strong> on the <code class="inline">Cluster0</code> card.</li>
+      <li>Click <strong>"+ Create Database"</strong>.</li>
+      <li>Enter Database Name: <code class="inline">StudentDB</code>.</li>
+      <li>Enter Collection Name: <code class="inline">students</code>.</li>
+      <li>Click <strong>"Create"</strong>. Atlas initializes the namespace <code class="inline">StudentDB.students</code> on the primary node.</li>
+    </ol>
+
+    <h3 class="subsection-heading">6.6 Step 6: Extracting the DNS SRV Connection URI</h3>
+    <ol>
+      <li>Click the <strong>"Connect"</strong> button on the cluster card.</li>
+      <li>Select <strong>"Drivers"</strong> &gt; Driver: <strong>Node.js</strong> &gt; Version: <strong>5.5 or later</strong>.</li>
+      <li>Copy the provided connection string template.</li>
+    </ol>
+
+    <div class="figure-box">
+      <img src="{diagrams_dir}/atlas-config-flow.svg" alt="Atlas 6-Step Workflow">
+      <div class="figure-caption">Figure 2: 6-Step Standard Roadmap for Provisioning and Linking MongoDB Atlas</div>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- PAGE 10: CONNECTION SEQUENCE & SRV ANATOMY -->
+  <!-- ============================================================== -->
+  <div class="page">
+    <div class="running-header">
+      <span>ANITS • Dept. of CSE • Full-Stack Web Development (23CM4121)</span>
+      <span>Case Study Report: Question Q3</span>
+    </div>
+
+    <h2 class="section-heading">7.0 CONNECTION SEQUENCE FLOW &amp; SRV PROTOCOL ANALYSIS</h2>
+    <p>
+      The DNS Seedlist connection URI utilizing the <code class="inline">mongodb+srv://</code> protocol eliminates hardcoding IP addresses:
+    </p>
+
+    <div class="figure-box">
+      <img src="{diagrams_dir}/connection-flow.svg" alt="Connection Flow & SRV Anatomy">
+      <div class="figure-caption">Figure 3: Connection Handshake Sequence &amp; Anatomy of the Atlas SRV Connection String</div>
+    </div>
+
+    <h3 class="subsection-heading">7.1 SRV Connection String Anatomy</h3>
+    <pre class="code-block">mongodb+srv://&lt;username&gt;:&lt;password&gt;@&lt;cluster-url&gt;.mongodb.net/StudentDB?retryWrites=true&amp;w=majority</pre>
+    <ul>
+      <li><code class="inline">mongodb+srv://</code>: Triggers DNS SRV record queries, allowing the driver to discover all 3 replica set members dynamically without hardcoded hostnames.</li>
+      <li><code class="inline">StudentDB</code>: Explicitly targets the student database namespace.</li>
+      <li><code class="inline">retryWrites=true</code>: Automatically retries write operations if the primary node undergoes a momentary election.</li>
+      <li><code class="inline">w=majority</code>: Enforces majority write concern across replica nodes before returning acknowledgment.</li>
+    </ul>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- PAGE 11: BACKEND - DIRECTORY & DB CONNECTION -->
+  <!-- ============================================================== -->
+  <div class="page">
+    <div class="running-header">
+      <span>ANITS • Dept. of CSE • Full-Stack Web Development (23CM4121)</span>
+      <span>Case Study Report: Question Q3</span>
+    </div>
+
+    <h2 class="section-heading">8.0 EXPRESS.JS BACKEND ARCHITECTURE &amp; IMPLEMENTATION</h2>
+    <h3 class="subsection-heading">8.1 Modular Project Directory Structure</h3>
+    <pre class="code-block">
+MongoDB-Atlas-Express-Student-Records/
+├── .env.example                     # Environment template (MONGODB_URI, DB_NAME, PORT)
+├── .gitignore                        # Git exclusions (node_modules, .env, logs)
+├── README.md                         # Project documentation and execution instructions
+├── backend/
+│   ├── package.json                 # Node dependencies (Express, Mongoose, Dotenv, CORS)
+│   ├── server.js                    # Server entrypoint and route mounting
+│   ├── config/db.js                 # Atlas Mongoose connection &amp; lifecycle listeners
+│   ├── models/studentModel.js       # Student Mongoose Schema &amp; B-Tree indexes
+│   ├── controllers/studentController.js  # Business logic (health, insert, getAll, seed)
+│   └── routes/studentRoutes.js      # REST API route mappings
+├── frontend/                        # Client demonstration UI (index.html, style.css, script.js)
+└── documentation/                   # Evaluation reports (PDF, DOCX, diagrams, screenshots)
+    </pre>
+
+    <h3 class="subsection-heading">8.2 Database Connection Module: <code class="inline">backend/config/db.js</code></h3>
+    <pre class="code-block">
+const mongoose = require('mongoose');
+
+mongoose.connection.on('connected', () => console.log('✅ [MongoDB Atlas] Connected to cluster.'));
+mongoose.connection.on('error', (err) => console.error('❌ [MongoDB Atlas] Error:', err.message));
+mongoose.connection.on('disconnected', () => console.warn('⚠️  [MongoDB Atlas] Disconnected.'));
+
+const connectDB = async () => {{
+  const uri = process.env.MONGODB_URI;
+  const dbName = process.env.DB_NAME || 'StudentDB';
+
+  try {{
+    const conn = await mongoose.connect(uri, {{
+      dbName,
+      retryWrites: true,
+      w: 'majority',
+    }});
+    console.log(`✅ Connected to '${{conn.connection.name}}' on host: ${{conn.connection.host}}`);
+    return true;
+  }} catch (error) {{
+    console.error('❌ Connection failed:', error.message);
+    return false;
+  }}
+}};
+module.exports = {{ connectDB, getConnectionStatus }};
+    </pre>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- PAGE 12: BACKEND - MODEL & CONTROLLER -->
+  <!-- ============================================================== -->
+  <div class="page">
+    <div class="running-header">
+      <span>ANITS • Dept. of CSE • Full-Stack Web Development (23CM4121)</span>
+      <span>Case Study Report: Question Q3</span>
+    </div>
+
+    <h3 class="subsection-heading">8.3 Student Mongoose Schema: <code class="inline">backend/models/studentModel.js</code></h3>
+    <pre class="code-block">
+const mongoose = require('mongoose');
+
+const studentSchema = new mongoose.Schema({{
+  studentId: {{
+    type: String, required: [true, 'Student ID required'],
+    unique: true, trim: true, uppercase: true,
+    match: [/^[A-Za-z0-9-]+$/, 'Alphanumeric and hyphens only'],
+  }},
+  name: {{ type: String, required: [true, 'Name required'], trim: true, minlength: 2 }},
+  email: {{
+    type: String, required: [true, 'Email required'],
+    unique: true, trim: true, lowercase: true,
+    match: [/^\S+@\S+\.\S+$/, 'Valid email required'],
+  }},
+  department: {{
+    type: String, required: [true, 'Department required'],
+    enum: ['Computer Science and Engineering', 'Information Technology',
+           'Electronics and Communication Engineering', 'Mechanical Engineering', 'Civil Engineering'],
+  }},
+  year: {{ type: Number, required: [true, 'Year required'], min: 1, max: 4 }},
+}}, {{ timestamps: true }});
+
+studentSchema.index({{ department: 1 }});
+const Student = mongoose.model('Student', studentSchema, 'students');
+module.exports = Student;
+    </pre>
+
+    <h3 class="subsection-heading">8.4 REST Controller Actions: <code class="inline">backend/controllers/studentController.js</code></h3>
+    <pre class="code-block">
+const Student = require('../models/studentModel');
+
+// @desc Store new student record in Atlas | POST /api/students
+const insertStudent = async (req, res) => {{
+  try {{
+    const {{ studentId, name, email, department, year }} = req.body;
+    const newStudent = await Student.create({{ studentId, name, email, department, year: Number(year) }});
+    res.status(201).json({{ success: true, message: 'Stored in MongoDB Atlas', data: newStudent }});
+  }} catch (error) {{
+    if (error.code === 11000) {{
+      return res.status(409).json({{ success: false, message: 'Duplicate record: studentId or email exists' }});
+    }}
+    res.status(400).json({{ success: false, message: error.message }});
+  }}
+}};
+
+// @desc Retrieve all student records from Atlas | GET /api/students
+const getAllStudents = async (req, res) => {{
+  try {{
+    const students = await Student.find().sort({{ createdAt: -1 }});
+    res.status(200).json({{ success: true, count: students.length, data: students }});
+  }} catch (error) {{
+    res.status(500).json({{ success: false, message: error.message }});
+  }}
+}};
+    </pre>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- PAGE 13: BACKEND - ROUTES & SERVER -->
+  <!-- ============================================================== -->
+  <div class="page">
+    <div class="running-header">
+      <span>ANITS • Dept. of CSE • Full-Stack Web Development (23CM4121)</span>
+      <span>Case Study Report: Question Q3</span>
+    </div>
+
+    <h3 class="subsection-heading">8.5 Route Mapping: <code class="inline">backend/routes/studentRoutes.js</code></h3>
+    <pre class="code-block">
+const express = require('express');
+const router = express.Router();
+const {{ checkHealth, insertStudent, getAllStudents, getStudentById, seedSampleStudents }} = require('../controllers/studentController');
+
+router.get('/health', checkHealth);
+router.route('/students').get(getAllStudents).post(insertStudent);
+router.get('/students/:id', getStudentById);
+router.post('/students/seed', seedSampleStudents);
+
+module.exports = router;
+    </pre>
+
+    <h3 class="subsection-heading">8.6 Express Server Bootstrap: <code class="inline">backend/server.js</code></h3>
+    <pre class="code-block">
+require('dotenv').config();
+const path = require('path');
+const express = require('express');
+const cors = require('cors');
+const {{ connectDB }} = require('./config/db');
+const studentRoutes = require('./routes/studentRoutes');
+
+const app = express();
+const PORT = process.env.PORT || 5000;
+
+app.use(express.json());
+app.use(express.urlencoded({{ extended: true }}));
+app.use(cors());
+app.use(express.static(path.join(__dirname, '../frontend')));
+app.use('/api', studentRoutes);
+
+app.get('*', (req, res, next) => {{
+  if (req.path.startsWith('/api')) return next();
+  res.sendFile(path.join(__dirname, '../frontend/index.html'));
+}});
+
+const startServer = async () => {{
+  await connectDB();
+  app.listen(PORT, () => console.log(`🚀 Server running on port ${{PORT}}`));
+}};
+startServer();
+module.exports = app;
+    </pre>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- PAGE 14: FRONTEND CLIENT & DATA FLOW -->
+  <!-- ============================================================== -->
+  <div class="page">
+    <div class="running-header">
+      <span>ANITS • Dept. of CSE • Full-Stack Web Development (23CM4121)</span>
+      <span>Case Study Report: Question Q3</span>
+    </div>
+
+    <h2 class="section-heading">9.0 FRONTEND CLIENT DEMONSTRATION &amp; DATA FLOW</h2>
+    <p>
+      A clean client interface demonstrates end-to-end communication with MongoDB Atlas:
+    </p>
+
+    <div class="figure-box">
+      <img src="{diagrams_dir}/data-flow.svg" alt="Data Flow Pipeline">
+      <div class="figure-caption">Figure 4: Data Flow Pipeline Between Client, Express Controllers, Mongoose, and Atlas</div>
+    </div>
+
+    <h3 class="subsection-heading">9.1 Client Demonstration Capabilities</h3>
+    <ul>
+      <li><strong>Live Status Pulse Badge:</strong> Queries <code class="inline">GET /api/health</code> to show live Atlas status, active cluster host, and total records stored.</li>
+      <li><strong>Student Record Form:</strong> Captures details and issues <code class="inline">POST /api/students</code> with loading spinner feedback.</li>
+      <li><strong>Real-Time Records Table:</strong> Displays retrieved BSON documents from <code class="inline">GET /api/students</code> including the MongoDB 24-character hexadecimal <code class="inline">_id</code>.</li>
+      <li><strong>Sample Record Seeder:</strong> One-click trigger for <code class="inline">POST /api/students/seed</code> to populate initial records.</li>
+    </ul>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- PAGE 15: REST API SPECIFICATION -->
+  <!-- ============================================================== -->
+  <div class="page">
+    <div class="running-header">
+      <span>ANITS • Dept. of CSE • Full-Stack Web Development (23CM4121)</span>
+      <span>Case Study Report: Question Q3</span>
+    </div>
+
+    <h2 class="section-heading">10.0 REST API ENDPOINT SPECIFICATION &amp; TESTING MATRIX</h2>
+    <p>
+      The Express backend exposes semantic RESTful routes to manage database connectivity and student record storage:
+    </p>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th style="width: 12%;">Method</th>
+          <th style="width: 20%;">Endpoint URI</th>
+          <th style="width: 30%;">Request Payload / Params</th>
+          <th style="width: 14%;">Status Code</th>
+          <th style="width: 24%;">Response Meaning</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong style="color: #0284c7;">GET</strong></td>
+          <td><code class="inline">/api/health</code></td>
+          <td>None</td>
+          <td><code class="inline">200 OK</code></td>
+          <td>Server uptime, Mongoose connection status, Atlas host, record count.</td>
+        </tr>
+        <tr>
+          <td><strong style="color: #059669;">POST</strong></td>
+          <td><code class="inline">/api/students</code></td>
+          <td><code class="inline">{{ studentId, name, email, department, year }}</code></td>
+          <td><code class="inline">201 Created</code></td>
+          <td>Validates and inserts new student document into <code class="inline">StudentDB.students</code>.</td>
+        </tr>
+        <tr>
+          <td><strong style="color: #0284c7;">GET</strong></td>
+          <td><code class="inline">/api/students</code></td>
+          <td>None</td>
+          <td><code class="inline">200 OK</code></td>
+          <td>Retrieves all student records sorted by <code class="inline">createdAt</code> descending.</td>
+        </tr>
+        <tr>
+          <td><strong style="color: #0284c7;">GET</strong></td>
+          <td><code class="inline">/api/students/:id</code></td>
+          <td>URL Param: 24-char ObjectId or Student ID</td>
+          <td><code class="inline">200 OK</code></td>
+          <td>Finds specific student record by ID.</td>
+        </tr>
+        <tr>
+          <td><strong style="color: #7c3aed;">POST</strong></td>
+          <td><code class="inline">/api/students/seed</code></td>
+          <td>None</td>
+          <td><code class="inline">201 Created</code></td>
+          <td>Seeds 4 initial demonstration student records into collection.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="grid-2">
+      <div class="grid-col">
+        <strong>Sample Request Body (POST):</strong>
+        <pre class="code-block">
+{{
+  "studentId": "A24126552101",
+  "name": "P. Dinesh Kumar",
+  "email": "dinesh.kumar@campus.edu",
+  "department": "Computer Science and Engineering",
+  "year": 3
+}}
+        </pre>
+      </div>
+      <div class="grid-col">
+        <strong>Sample Response Body (HTTP 201):</strong>
+        <pre class="code-block">
+{{
+  "success": true,
+  "message": "Student record successfully stored in MongoDB Atlas",
+  "data": {{
+    "_id": "6738c821f01a34b21901a001",
+    "studentId": "A24126552101",
+    "createdAt": "2026-11-17T06:15:00.000Z"
+  }}
+}}
+        </pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- PAGE 16: PRACTICAL VERIFICATION & SCREENSHOTS -->
+  <!-- ============================================================== -->
+  <div class="page">
+    <div class="running-header">
+      <span>ANITS • Dept. of CSE • Full-Stack Web Development (23CM4121)</span>
+      <span>Case Study Report: Question Q3</span>
+    </div>
+
+    <h2 class="section-heading">11.0 PRACTICAL VERIFICATION &amp; TEST RESULTS</h2>
+    <p>
+      The complete system was executed on Windows PowerShell and verified across terminal output, cloud dashboard, and frontend:
+    </p>
+
+    <div class="grid-2">
+      <div class="grid-col">
+        <div class="figure-box">
+          <img src="{screenshots_dir}/express-server-terminal.png" alt="Terminal Output">
+          <div class="figure-caption">Figure 5: Terminal Startup &amp; Health Probe Output</div>
+        </div>
+      </div>
+      <div class="grid-col">
+        <div class="figure-box">
+          <img src="{screenshots_dir}/atlas-dashboard.png" alt="Atlas Cloud Dashboard">
+          <div class="figure-caption">Figure 6: MongoDB Atlas Cluster0 Dashboard</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="grid-col">
+        <div class="figure-box">
+          <img src="{screenshots_dir}/atlas-collections-view.png" alt="Collections Viewer">
+          <div class="figure-caption">Figure 7: Atlas Document Collections Browser (<code class="inline">StudentDB.students</code>)</div>
+        </div>
+      </div>
+      <div class="grid-col">
+        <div class="figure-box">
+          <img src="{screenshots_dir}/ui-demonstration.png" alt="Frontend UI">
+          <div class="figure-caption">Figure 8: Frontend Client Demonstration Interface</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- PAGE 17: SECURITY & ERROR HANDLING -->
+  <!-- ============================================================== -->
+  <div class="page">
+    <div class="running-header">
+      <span>ANITS • Dept. of CSE • Full-Stack Web Development (23CM4121)</span>
+      <span>Case Study Report: Question Q3</span>
+    </div>
+
+    <h2 class="section-heading">12.0 SECURITY BEST PRACTICES, POOLING &amp; ERROR HANDLING</h2>
+    <p>
+      Connecting a web application to a public cloud database requires defensive programming practices:
+    </p>
+
+    <h3 class="subsection-heading">12.1 Environment Credential Hygiene</h3>
+    <ul>
+      <li><strong>Zero Secrets in Git:</strong> Atlas connection URIs and credentials are stored exclusively in <code class="inline">.env</code>. The <code class="inline">.gitignore</code> file explicitly excludes <code class="inline">.env</code>, preventing credential leaks.</li>
+      <li><strong>Sanitized Template:</strong> A template <code class="inline">.env.example</code> with placeholder tokens is distributed for evaluation setup.</li>
+    </ul>
+
+    <h3 class="subsection-heading">12.2 Defensive Error Handling Matrix</h3>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Failure Scenario</th>
+          <th>Engine Error Code</th>
+          <th>Express Handling Strategy</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Duplicate Student ID / Email</strong></td>
+          <td>MongoDB Code <code class="inline">11000</code></td>
+          <td>Catches error code 11000 and returns HTTP 409 Conflict with descriptive message.</td>
+        </tr>
+        <tr>
+          <td><strong>Invalid Department or Year</strong></td>
+          <td>Mongoose <code class="inline">ValidationError</code></td>
+          <td>Extracts validator messages and returns HTTP 400 Bad Request with field feedback.</td>
+        </tr>
+        <tr>
+          <td><strong>Network Interruption to Atlas</strong></td>
+          <td>Mongoose <code class="inline">disconnected</code></td>
+          <td>Automated reconnect loop; health endpoint gracefully reports Disconnected status.</td>
+        </tr>
+        <tr>
+          <td><strong>Missing URI in Environment</strong></td>
+          <td><code class="inline">MONGODB_URI === undefined</code></td>
+          <td>Prints descriptive warning banner; server boots in offline mode without crashing.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ============================================================== -->
+  <!-- PAGE 18: OUTCOMES, CONCLUSION & REFERENCES -->
+  <!-- ============================================================== -->
+  <div class="page-last">
+    <div class="running-header">
+      <span>ANITS • Dept. of CSE • Full-Stack Web Development (23CM4121)</span>
+      <span>Case Study Report: Question Q3</span>
+    </div>
+
+    <h2 class="section-heading">13.0 LEARNING OUTCOMES &amp; CONCLUSION</h2>
+    <h3 class="subsection-heading">13.1 Learning Outcomes Achieved</h3>
+    <ul>
+      <li><strong>Cloud Provisioning Skills:</strong> Acquired hands-on proficiency in navigating the MongoDB Atlas console, provisioning an AWS Mumbai M0 cluster, and managing user security.</li>
+      <li><strong>Full-Stack Connectivity:</strong> Connected an Express.js backend using Mongoose ODM, utilizing connection lifecycle listeners and connection pooling.</li>
+      <li><strong>Data Modeling Discipline:</strong> Designed strict Mongoose schemas with B-Tree indexes, format regexes, and unique constraint enforcement.</li>
+    </ul>
+
+    <h3 class="subsection-heading">13.2 Concluding Remarks</h3>
+    <p>
+      This case study successfully addressed all requirements of <strong>Question No. 3</strong>. MongoDB Atlas was provisioned, configured, and bound to database <code class="inline">StudentDB</code> and collection <code class="inline">students</code>. The Node.js/Express.js backend established an authenticated connection over TLS using Mongoose. Student records were successfully inserted, validated, and retrieved, demonstrating end-to-end cloud database integration.
+    </p>
+
+    <h2 class="section-heading">14.0 REFERENCES</h2>
+    <ol style="font-size: 8.5pt;">
+      <li>MongoDB Inc., "MongoDB Atlas Documentation - Getting Started with Clusters", <em>mongodb.com/docs/atlas/</em>, 2026.</li>
+      <li>Mongoose ODM, "Mongoose Quick Start &amp; Connection Guide", <em>mongoosejs.com/docs/connections.html</em>, 2026.</li>
+      <li>Express.js Foundation, "Express Routing and Middleware Documentation", <em>expressjs.com/en/guide/routing.html</em>, 2026.</li>
+      <li>Anil Neerukonda Institute of Technology &amp; Sciences, "Full-Stack Web Development Lab Manual (23CM4121)", Department of Computer Science &amp; Engineering, 2025–2026.</li>
+    </ol>
+
+    <div style="margin-top: 25px; border-top: 1px solid #cbd5e1; padding-top: 12px; display: flex; justify-content: space-between; font-size: 9pt;">
+      <div>
+        <strong>Student Signature:</strong><br><br>
+        ___________________________<br>
+        <strong>P. DINESH KUMAR</strong><br>
+        Roll No: A24126552101
+      </div>
+      <div style="text-align: right;">
+        <strong>Faculty Evaluator Signature:</strong><br><br>
+        ___________________________<br>
+        Department of CSE, ANITS
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
+"""
+
+# ----------------------------------------------------------------------
+# 2. DOCX Content Generation
+# ----------------------------------------------------------------------
+def generate_docx():
+    print(f"Generating editable Word Document: {DOCX_PATH}...")
+    doc = Document()
+
+    # Set standard A4 margins (0.7 inch)
+    for section in doc.sections:
+        section.top_margin = Inches(0.7)
+        section.bottom_margin = Inches(0.7)
+        section.left_margin = Inches(0.7)
+        section.right_margin = Inches(0.7)
+
+    # Helper styling function
+    def add_title(text):
+        p = doc.add_paragraph()
+        p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        run = p.add_run(text)
+        run.bold = True
+        run.font.size = Pt(16)
+        run.font.color.rgb = RGBColor(15, 41, 66)
+        return p
+
+    def add_subtitle(text):
+        p = doc.add_paragraph()
+        p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        run = p.add_run(text)
+        run.bold = True
+        run.font.size = Pt(11)
+        run.font.color.rgb = RGBColor(3, 105, 161)
+        return p
+
+    def add_heading_1(text):
+        p = doc.add_paragraph()
+        run = p.add_run(text)
+        run.bold = True
+        run.font.size = Pt(13)
+        run.font.color.rgb = RGBColor(15, 41, 66)
+        return p
+
+    def add_heading_2(text):
+        p = doc.add_paragraph()
+        run = p.add_run(text)
+        run.bold = True
+        run.font.size = Pt(11)
+        run.font.color.rgb = RGBColor(3, 105, 161)
+        return p
+
+    def add_bullet(text):
+        p = doc.add_paragraph(style='List Bullet')
+        run = p.add_run(text)
+        run.font.size = Pt(9.5)
+        return p
+
+    def add_code(text):
+        p = doc.add_paragraph()
+        p.paragraph_format.left_indent = Inches(0.2)
+        run = p.add_run(text)
+        run.font.name = 'Consolas'
+        run.font.size = Pt(8.5)
+        run.font.color.rgb = RGBColor(15, 23, 42)
+        return p
+
+    # --- Title Page Content ---
+    p_inst = doc.add_paragraph()
+    p_inst.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    r_inst = p_inst.add_run("ANIL NEERUKONDA INSTITUTE OF TECHNOLOGY & SCIENCES (ANITS)\nDEPARTMENT OF COMPUTER SCIENCE AND ENGINEERING\n")
+    r_inst.bold = True
+    r_inst.font.size = Pt(12)
+    r_inst.font.color.rgb = RGBColor(15, 41, 66)
+
+    add_title("MONGODB ATLAS CONFIGURATION AND STUDENT RECORD STORAGE USING EXPRESS.JS")
+    add_subtitle("Full-Stack Web Development Lab (23CM4121) • Unit V Worked Case Study (Question Q3)")
+
+    p_meta = doc.add_paragraph()
+    p_meta.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p_meta.add_run("Student Name: P. Dinesh Kumar  |  Roll Number: A24126552101\nAcademic Year: 2025–2026  |  Target Database: StudentDB  |  Collection: students\n")
+
+    doc.add_page_break()
+
+    # --- Section 1: Aim & Objectives ---
+    add_heading_1("1.0 AIM AND OBJECTIVES")
+    doc.add_paragraph("The aim of this case study is to configure MongoDB Atlas to store student records, provision the database StudentDB and collection students, connect an Express.js backend using Mongoose ODM, and demonstrate student record insertion and retrieval.")
+    add_bullet("Cloud Database Provisioning: Deploy an M0 Shared sandbox cluster in AWS Mumbai (ap-south-1).")
+    add_bullet("Security Configuration: SCRAM-SHA-256 user authentication and network CIDR allowlisting.")
+    add_bullet("Backend Connectivity: Express.js connection module with Mongoose event handling.")
+    add_bullet("Data Validation: Schema enforcement for studentId uniqueness, email format, and year limits.")
+
+    # --- Section 2: Theoretical Background ---
+    add_heading_1("2.0 THEORETICAL OVERVIEW: CLOUD VS. LOCAL DATABASES")
+    doc.add_paragraph("Traditional local MongoDB instances on localhost:27017 lack multi-region replication, automated failover, and global network reach. MongoDB Atlas provides managed 3-node replica sets, continuous snapshots, and strict TLS 1.3 transport security.")
+
+    # --- Section 3: System Requirements ---
+    add_heading_1("3.0 SYSTEM REQUIREMENTS & SOFTWARE ENVIRONMENT")
+    doc.add_paragraph("Hardware: Minimum 8 GB RAM, x86_64 CPU, Outbound TCP Port 27017 and Port 443.")
+    doc.add_paragraph("Software: Node.js v20+ LTS, Express.js 4.21.2, Mongoose 8.9.5, Dotenv 16.4.7, MongoDB Atlas 7.0 Cloud Engine.")
+
+    # --- Section 4: System Architecture ---
+    add_heading_1("4.0 END-TO-END SYSTEM ARCHITECTURE")
+    doc.add_paragraph("The application follows a decoupled 3-tier architecture: Client Presentation (HTML/CSS/JS), Application Server (Node/Express), and Cloud Persistence (MongoDB Atlas).")
+    arch_png = os.path.join(diagrams_dir, "architecture.png")
+    if not os.path.exists(arch_png):
+        arch_png = os.path.join(screenshots_dir, "atlas-dashboard.png")
+    if os.path.exists(arch_png):
+        doc.add_picture(arch_png, width=Inches(6.0))
+
+    # --- Section 5: Step-by-Step Atlas Configuration ---
+    add_heading_1("5.0 DETAILED 6-STEP MONGODB ATLAS CONFIGURATION GUIDE")
+    add_heading_2("Step 1: Cloud Account Setup & Project Creation")
+    doc.add_paragraph("Navigate to cloud.mongodb.com, authenticate, create organization ANITS-CSE, and initialize project Student-Records-Q3.")
+
+    add_heading_2("Step 2: Deploy Shared Cluster (M0 Sandbox)")
+    doc.add_paragraph("Click 'Build a Database', select M0 Free Tier, choose AWS as cloud provider and Mumbai (ap-south-1) as region. Name cluster Cluster0.")
+
+    add_heading_2("Step 3: Configure Database User Security")
+    doc.add_paragraph("Go to Security > Database Access, create user dinesh_admin with SCRAM-SHA-256 password and readWriteAnyDatabase privileges.")
+
+    add_heading_2("Step 4: Configure Network IP Allowlisting")
+    doc.add_paragraph("Go to Security > Network Access, add IP access list entry 0.0.0.0/0 to allow connectivity from development environments.")
+
+    add_heading_2("Step 5: Create Database and Collection")
+    doc.add_paragraph("In Database Deployments, click 'Browse Collections', create database StudentDB and collection students.")
+
+    add_heading_2("Step 6: Extract SRV Connection String")
+    doc.add_paragraph("Click 'Connect', select 'Drivers' > Node.js, and copy the mongodb+srv:// URI template.")
+
+    # --- Section 6: Express Backend Implementation ---
+    add_heading_1("6.0 EXPRESS.JS BACKEND IMPLEMENTATION")
+    add_heading_2("6.1 Connection Module (backend/config/db.js)")
+    add_code("""const mongoose = require('mongoose');
+
+const connectDB = async () => {
+  const uri = process.env.MONGODB_URI;
+  const dbName = process.env.DB_NAME || 'StudentDB';
+  try {
+    const conn = await mongoose.connect(uri, { dbName, retryWrites: true, w: 'majority' });
+    console.log(`Connected to ${conn.connection.name}`);
+    return true;
+  } catch (error) {
+    console.error('Connection error:', error.message);
+    return false;
+  }
+};""")
+
+    add_heading_2("6.2 Student Mongoose Schema (backend/models/studentModel.js)")
+    add_code("""const mongoose = require('mongoose');
+const studentSchema = new mongoose.Schema({
+  studentId: { type: String, required: true, unique: true, uppercase: true },
+  name: { type: String, required: true },
+  email: { type: String, required: true, unique: true, lowercase: true },
+  department: { type: String, required: true },
+  year: { type: Number, required: true, min: 1, max: 4 }
+}, { timestamps: true });
+module.exports = mongoose.model('Student', studentSchema, 'students');""")
+
+    # --- Section 7: REST API Specification ---
+    add_heading_1("7.0 REST API SPECIFICATION")
+    table = doc.add_table(rows=1, cols=4)
+    table.alignment = WD_TABLE_ALIGNMENT.CENTER
+    hdr = table.rows[0].cells
+    hdr[0].text = "Method"
+    hdr[1].text = "Endpoint"
+    hdr[2].text = "Payload / Parameters"
+    hdr[3].text = "Success Status"
+    
+    rows_data = [
+        ("GET", "/api/health", "None", "200 OK"),
+        ("POST", "/api/students", "{ studentId, name, email, department, year }", "201 Created"),
+        ("GET", "/api/students", "None", "200 OK"),
+        ("GET", "/api/students/:id", "Param: ObjectId or studentId", "200 OK"),
+        ("POST", "/api/students/seed", "None", "201 Created"),
+    ]
+    for m, ep, p, s in rows_data:
+        r = table.add_row().cells
+        r[0].text = m
+        r[1].text = ep
+        r[2].text = p
+        r[3].text = s
+
+    # --- Section 8: Practical Verification & Conclusion ---
+    add_heading_1("8.0 PRACTICAL VERIFICATION & CONCLUSION")
+    doc.add_paragraph("The application successfully connected to MongoDB Atlas over TLS 1.3, validated student records, and presented them through both REST APIs and the demonstration frontend. The case study fully satisfies the requirements of Question No. 3.")
+
+    doc.save(DOCX_PATH)
+    print(f"Successfully created {DOCX_PATH}")
+
+# ----------------------------------------------------------------------
+# 3. Execution & PDF Compilation
+# ----------------------------------------------------------------------
+def run_generation():
+    print(f"Writing updated HTML to {HTML_PATH}...")
+    html = generate_html_content()
+    with open(HTML_PATH, "w", encoding="utf-8") as f:
+        f.write(html)
+
+    print(f"Compiling PDF via Microsoft Edge headless to {PDF_PATH}...")
+    cmd = [
+        EDGE_EXE,
+        "--headless",
+        "--disable-gpu",
+        "--no-pdf-header-footer",
+        f"--print-to-pdf={PDF_PATH}",
+        HTML_PATH,
+    ]
+    res = subprocess.run(cmd, capture_output=True, text=True)
+    if res.returncode == 0 and os.path.exists(PDF_PATH):
+        reader = pypdf.PdfReader(PDF_PATH)
+        page_count = len(reader.pages)
+        size_kb = os.path.getsize(PDF_PATH) / 1024
+        print(f"PDF Generated: {PDF_PATH} (Pages: {page_count}, Size: {size_kb:.1f} KB)")
+        if page_count != 18:
+            print(f"Notice: Page count is {page_count} (Target: 18)")
+    else:
+        print(f"PDF generation failed: {res.stderr}")
+
+    generate_docx()
+
+if __name__ == "__main__":
+    run_generation()
