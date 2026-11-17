@@ -6,7 +6,15 @@
  * Student: P. Dinesh Kumar (A24126552101)
  */
 
+const dns = require('dns');
 const mongoose = require('mongoose');
+
+// Configure reliable public DNS servers for Windows SRV seedlist lookups
+try {
+  dns.setServers(['8.8.8.8', '1.1.1.1']);
+} catch (dnsErr) {
+  // Use default system DNS if custom assignment fails
+}
 
 // Mongoose Connection Event Listeners
 mongoose.connection.on('connected', () => {

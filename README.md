@@ -99,7 +99,7 @@ Configuring MongoDB Atlas follows a structured 6-step engineering procedure:
 1. In the Atlas left navigation menu, go to **Security > Database Access**.
 2. Click **"Add New Database User"**.
 3. Choose **Password Authentication** (SCRAM-SHA-256).
-4. Enter username: `dinesh_admin`.
+4. Enter username: `dineshparaselli2507_db_user`.
 5. Enter a strong alphanumeric password (e.g., `DineshAtlas#2026`).
 6. Under **Database User Privileges**, select the built-in role **"Read and write to any database"** (`readWriteAnyDatabase@admin`).
 7. Click **"Add User"** to commit credentials.
@@ -124,7 +124,7 @@ Configuring MongoDB Atlas follows a structured 6-step engineering procedure:
 2. Select **"Drivers"** > Driver: **Node.js** > Version: **5.5 or later**.
 3. Copy the standard connection URI string template:
    ```env
-   MONGODB_URI=mongodb+srv://<username>:<password>@cluster0.abcde.mongodb.net/StudentDB?retryWrites=true&w=majority
+   MONGODB_URI=mongodb+srv://<username>:<password>@cluster0.9esdzfa.mongodb.net/StudentDB?retryWrites=true&w=majority
    ```
 4. Paste the URI into your local `.env` file, substituting your actual user credentials.
 
@@ -135,7 +135,7 @@ Configuring MongoDB Atlas follows a structured 6-step engineering procedure:
 ![Connection Flow Diagram](documentation/diagrams/connection-flow.svg)
 
 ```
-mongodb+srv://dinesh_admin:P@ssw0rd123@cluster0.abcde.mongodb.net/StudentDB?retryWrites=true&w=majority
+mongodb+srv://dineshparaselli2507_db_user:P@ssw0rd123@cluster0.9esdzfa.mongodb.net/StudentDB?retryWrites=true&w=majority
 │             │            │           │                          │         │
 │             │            │           │                          │         └─ Write Concern: majority node ack
 │             │            │           │                          └─ Target Database Name: StudentDB
@@ -292,7 +292,7 @@ The frontend client demonstrates practical interaction with the cloud database:
   "success": true,
   "message": "Student record successfully stored in MongoDB Atlas (StudentDB.students)",
   "data": {
-    "_id": "6738c821f01a34b21901a001",
+    "_id": "6afbfe85ac48c97e669a941a",
     "studentId": "A24126552101",
     "name": "P. Dinesh Kumar",
     "email": "dinesh.kumar@campus.edu",
@@ -348,7 +348,7 @@ cp ..\.env.example .\.env
 ```
 Open `.env` in any text editor and supply your actual Atlas cluster connection URI:
 ```env
-MONGODB_URI=mongodb+srv://dinesh_admin:YourPassword123@cluster0.abcde.mongodb.net/StudentDB?retryWrites=true&w=majority
+MONGODB_URI=mongodb+srv://dineshparaselli2507_db_user:YourPassword123@cluster0.9esdzfa.mongodb.net/StudentDB?retryWrites=true&w=majority
 DB_NAME=StudentDB
 PORT=5000
 NODE_ENV=development

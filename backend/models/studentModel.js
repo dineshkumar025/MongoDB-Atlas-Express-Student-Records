@@ -60,7 +60,7 @@ const studentSchema = new mongoose.Schema(
 );
 
 // Performance B-Tree Indexes
-studentSchema.index({ studentId: 1 }, { unique: true });
+// Note: unique index on studentId is automatically created via `unique: true`
 studentSchema.index({ department: 1 });
 
 // Explicitly bind model to collection 'students'

@@ -701,7 +701,7 @@ def generate_html_content():
       <li>In the Atlas left sidebar, navigate to <strong>Security &gt; Database Access</strong>.</li>
       <li>Click <strong>"Add New Database User"</strong>.</li>
       <li>Select <strong>Password Authentication</strong> (utilizing SCRAM-SHA-256).</li>
-      <li>Specify a dedicated username, such as <code class="inline">dinesh_admin</code>.</li>
+      <li>Specify a dedicated username, such as <code class="inline">dineshparaselli2507_db_user</code>.</li>
       <li>Generate a cryptographically strong alphanumeric password (e.g. <code class="inline">DineshAtlas#2026</code>).</li>
       <li>
         <strong>Role-Based Access Control (RBAC):</strong> Under <em>Database User Privileges</em>, assign the built-in role <strong>"Read and write to any database"</strong> (<code class="inline">readWriteAnyDatabase@admin</code>). This grants permission to insert, query, and modify records inside the target database (<code class="inline">StudentDB</code>).
@@ -1073,7 +1073,7 @@ module.exports = app;
   "success": true,
   "message": "Student record successfully stored in MongoDB Atlas",
   "data": {{
-    "_id": "6738c821f01a34b21901a001",
+    "_id": "6afbfe85ac48c97e669a941a",
     "studentId": "A24126552101",
     "createdAt": "2026-11-17T06:15:00.000Z"
   }}
@@ -1347,7 +1347,7 @@ def generate_docx():
     doc.add_paragraph("Click 'Build a Database', select M0 Free Tier, choose AWS as cloud provider and Mumbai (ap-south-1) as region. Name cluster Cluster0.")
 
     add_heading_2("Step 3: Configure Database User Security")
-    doc.add_paragraph("Go to Security > Database Access, create user dinesh_admin with SCRAM-SHA-256 password and readWriteAnyDatabase privileges.")
+    doc.add_paragraph("Go to Security > Database Access, create user dineshparaselli2507_db_user with SCRAM-SHA-256 password and readWriteAnyDatabase privileges.")
 
     add_heading_2("Step 4: Configure Network IP Allowlisting")
     doc.add_paragraph("Go to Security > Network Access, add IP access list entry 0.0.0.0/0 to allow connectivity from development environments.")

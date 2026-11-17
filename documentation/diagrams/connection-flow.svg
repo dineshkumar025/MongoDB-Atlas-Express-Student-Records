@@ -131,11 +131,11 @@
     <rect x="20" y="50" width="830" height="38" rx="6" fill="#1e293b" />
     <text x="35" y="74" font-family="'Consolas', monospace" font-size="13" fill="#ffffff">
       <tspan fill="#38bdf8">mongodb+srv://</tspan>
-      <tspan fill="#4ade80">dinesh_admin</tspan>
+      <tspan fill="#4ade80">dineshparaselli2507_db_user</tspan>
       <tspan fill="#94a3b8">:</tspan>
       <tspan fill="#f43f5e">P@ssw0rd123</tspan>
       <tspan fill="#94a3b8">@</tspan>
-      <tspan fill="#fbbf24">cluster0.abcde.mongodb.net</tspan>
+      <tspan fill="#fbbf24">cluster0.9esdzfa.mongodb.net</tspan>
       <tspan fill="#94a3b8">/</tspan>
       <tspan fill="#c084fc">StudentDB</tspan>
       <tspan fill="#38bdf8">?retryWrites=true&amp;w=majority</tspan>
@@ -150,13 +150,13 @@
 
     <g transform="translate(25, 150)">
       <circle cx="10" cy="10" r="6" fill="#4ade80" />
-      <text x="25" y="14" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="bold" fill="#059669">dinesh_admin : P@ssw0rd123</text>
+      <text x="25" y="14" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="bold" fill="#059669">dineshparaselli2507_db_user : P@ssw0rd123</text>
       <text x="25" y="30" font-family="'Segoe UI', sans-serif" font-size="10" fill="#64748b">Database User credentials created in Atlas Security &gt; Database Access with readWriteRole.</text>
     </g>
 
     <g transform="translate(460, 105)">
       <circle cx="10" cy="10" r="6" fill="#fbbf24" />
-      <text x="25" y="14" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="bold" fill="#d97706">cluster0.abcde.mongodb.net</text>
+      <text x="25" y="14" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="bold" fill="#d97706">cluster0.9esdzfa.mongodb.net</text>
       <text x="25" y="30" font-family="'Segoe UI', sans-serif" font-size="10" fill="#64748b">Unique Cloud cluster hostname resolving to primary and secondary replica set members.</text>
     </g>
 

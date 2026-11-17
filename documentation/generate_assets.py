@@ -312,11 +312,11 @@ def generate_connection_flow_svg():
     <rect x="20" y="50" width="830" height="38" rx="6" fill="#1e293b" />
     <text x="35" y="74" font-family="'Consolas', monospace" font-size="13" fill="#ffffff">
       <tspan fill="#38bdf8">mongodb+srv://</tspan>
-      <tspan fill="#4ade80">dinesh_admin</tspan>
+      <tspan fill="#4ade80">dineshparaselli2507_db_user</tspan>
       <tspan fill="#94a3b8">:</tspan>
       <tspan fill="#f43f5e">P@ssw0rd123</tspan>
       <tspan fill="#94a3b8">@</tspan>
-      <tspan fill="#fbbf24">cluster0.abcde.mongodb.net</tspan>
+      <tspan fill="#fbbf24">cluster0.9esdzfa.mongodb.net</tspan>
       <tspan fill="#94a3b8">/</tspan>
       <tspan fill="#c084fc">StudentDB</tspan>
       <tspan fill="#38bdf8">?retryWrites=true&amp;w=majority</tspan>
@@ -331,13 +331,13 @@ def generate_connection_flow_svg():
 
     <g transform="translate(25, 150)">
       <circle cx="10" cy="10" r="6" fill="#4ade80" />
-      <text x="25" y="14" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="bold" fill="#059669">dinesh_admin : P@ssw0rd123</text>
+      <text x="25" y="14" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="bold" fill="#059669">dineshparaselli2507_db_user : P@ssw0rd123</text>
       <text x="25" y="30" font-family="'Segoe UI', sans-serif" font-size="10" fill="#64748b">Database User credentials created in Atlas Security &gt; Database Access with readWriteRole.</text>
     </g>
 
     <g transform="translate(460, 105)">
       <circle cx="10" cy="10" r="6" fill="#fbbf24" />
-      <text x="25" y="14" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="bold" fill="#d97706">cluster0.abcde.mongodb.net</text>
+      <text x="25" y="14" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="bold" fill="#d97706">cluster0.9esdzfa.mongodb.net</text>
       <text x="25" y="30" font-family="'Segoe UI', sans-serif" font-size="10" fill="#64748b">Unique Cloud cluster hostname resolving to primary and secondary replica set members.</text>
     </g>
 
@@ -553,7 +553,7 @@ def generate_atlas_config_flow_svg():
     <text x="15" y="23" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="bold" fill="#38bdf8">STEP 3: Configure Database User</text>
     <text x="15" y="55" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="bold" fill="#0f172a">Security &gt; Database Access</text>
     <text x="15" y="75" font-family="'Segoe UI', sans-serif" font-size="10" fill="#475569">• Authentication: Password (SCRAM)</text>
-    <text x="15" y="93" font-family="'Segoe UI', sans-serif" font-size="10" fill="#475569">• Create User: e.g. "dinesh_admin"</text>
+    <text x="15" y="93" font-family="'Segoe UI', sans-serif" font-size="10" fill="#475569">• Create User: e.g. "dineshparaselli2507_db_user"</text>
     <text x="15" y="111" font-family="'Segoe UI', sans-serif" font-size="10" fill="#475569">• Set secure alphanumeric password</text>
     <text x="15" y="129" font-family="'Segoe UI', sans-serif" font-size="10" fill="#475569">• Built-in Role: "Read and write to any db"</text>
     <rect x="15" y="142" width="240" height="18" rx="4" fill="#f1f5f9" />
@@ -642,7 +642,7 @@ def generate_terminal_screenshot():
         ("", "#ffffff"),
         ("Connecting to MongoDB Atlas database: StudentDB...", "#38bdf8"),
         ("[MongoDB Atlas] Connected successfully to cluster.", "#4ade80"),
-        ("✅ [MongoDB Atlas] Connected to database: 'StudentDB' on host: cluster0.abcde.mongodb.net", "#4ade80"),
+        ("✅ [MongoDB Atlas] Connected to database: 'StudentDB' on host: cluster0.9esdzfa.mongodb.net", "#4ade80"),
         ("", "#ffffff"),
         ("================================================================", "#38bdf8"),
         (" 🚀 SERVER RUNNING AT: http://localhost:5000", "#ffffff"),
@@ -711,7 +711,7 @@ def generate_atlas_dashboard_screenshot():
 
     draw.line([(50, 240), (w - 50, 240)], fill="#e8edeb", width=1)
     draw.text((50, 255), "SRV Endpoint: ", fill="#5c6c75", font=font_r)
-    draw.text((150, 255), "mongodb+srv://cluster0.abcde.mongodb.net/StudentDB", fill="#001e2b", font=font_mono)
+    draw.text((150, 255), "mongodb+srv://cluster0.9esdzfa.mongodb.net/StudentDB", fill="#001e2b", font=font_mono)
     draw.text((50, 280), "Security Status: ", fill="#5c6c75", font=font_r)
     draw.text((150, 280), "SCRAM-SHA-256 Enabled • TLS 1.3 Active • IP Access: 0.0.0.0/0", fill="#00684a", font=font_r)
 
@@ -721,7 +721,7 @@ def generate_atlas_dashboard_screenshot():
     
     # Sub tables
     draw.text((50, 375), "Database Access (Users):", fill="#5c6c75", font=get_font(11, bold=True))
-    draw.text((50, 395), "• dinesh_admin (readWriteAnyDatabase@admin)", fill="#001e2b", font=font_mono)
+    draw.text((50, 395), "• dineshparaselli2507_db_user (readWriteAnyDatabase@admin)", fill="#001e2b", font=font_mono)
     draw.text((50, 415), "• Auth Mechanism: SCRAM-SHA-256 Password Hash", fill="#5c6c75", font=font_r)
 
     draw.text((480, 375), "Network Access (IP Allowlist):", fill="#5c6c75", font=get_font(11, bold=True))
@@ -757,7 +757,7 @@ def generate_atlas_collections_screenshot():
     draw.rectangle([(30, 100), (w - 30, 490)], fill="#fcfdfd", outline="#cbd5e1", width=1)
     
     docs = [
-        ('{"_id": ObjectId("6738c821f01a34b21901a001"),', "#0f172a"),
+        ('{"_id": ObjectId("6afbfe85ac48c97e669a941a"),', "#0f172a"),
         ('  "studentId": "A24126552101",', "#0284c7"),
         ('  "name": "P. Dinesh Kumar",', "#059669"),
         ('  "email": "dinesh.kumar@campus.edu",', "#d97706"),
@@ -766,7 +766,7 @@ def generate_atlas_collections_screenshot():
         ('  "createdAt": ISODate("2026-11-17T06:15:00.000Z"),', "#64748b"),
         ('  "__v": 0 }', "#64748b"),
         ('---', "#e2e8f0"),
-        ('{"_id": ObjectId("6738c821f01a34b21901a002"),', "#0f172a"),
+        ('{"_id": ObjectId("6afbfe85ac48c97e669a941b"),', "#0f172a"),
         ('  "studentId": "A24126552072",', "#0284c7"),
         ('  "name": "Priya Sharma",', "#059669"),
         ('  "email": "priya.sharma@campus.edu",', "#d97706"),
@@ -775,7 +775,7 @@ def generate_atlas_collections_screenshot():
         ('  "createdAt": ISODate("2026-11-17T06:16:00.000Z"),', "#64748b"),
         ('  "__v": 0 }', "#64748b"),
         ('---', "#e2e8f0"),
-        ('{"_id": ObjectId("6738c821f01a34b21901a003"),', "#0f172a"),
+        ('{"_id": ObjectId("6afbfe85ac48c97e669a941c"),', "#0f172a"),
         ('  "studentId": "A24126552085",', "#0284c7"),
         ('  "name": "Rahul Verma",', "#059669"),
         ('  "email": "rahul.verma@campus.edu",', "#d97706"),
@@ -815,7 +815,7 @@ def generate_ui_screenshot():
     draw.rectangle([(30, 105), (w - 30, 145)], fill="#ffffff", outline="#e2e8f0", width=1)
     draw.ellipse([(48, 120), (60, 132)], fill="#10b981") # Green dot
     draw.text((70, 118), "Atlas Database Status: Connected to StudentDB", fill="#0f172a", font=font_b)
-    draw.text((420, 118), "Host: cluster0.abcde.mongodb.net", fill="#64748b", font=font_mono)
+    draw.text((420, 118), "Host: cluster0.9esdzfa.mongodb.net", fill="#64748b", font=font_mono)
     draw.text((720, 118), "Records Stored: 4", fill="#059669", font=font_b)
 
     # Left: Form Card
@@ -855,10 +855,10 @@ def generate_ui_screenshot():
     draw.text((840, 210), "MongoDB _id", fill="#475569", font=get_font(10, bold=True))
 
     rows = [
-        ("A24126552101", "P. Dinesh Kumar", "CSE", "Year 3", "6738c821...a001"),
-        ("A24126552072", "Priya Sharma", "ECE", "Year 2", "6738c821...a002"),
-        ("A24126552085", "Rahul Verma", "MECH", "Year 4", "6738c821...a003"),
-        ("A24126552093", "Ananya Iyer", "CSE", "Year 1", "6738c821...a004"),
+        ("A24126552101", "P. Dinesh Kumar", "CSE", "Year 3", "6afbfe85...941a"),
+        ("A24126552072", "Priya Sharma", "ECE", "Year 2", "6afbfe85...941b"),
+        ("A24126552085", "Rahul Verma", "MECH", "Year 4", "6afbfe85...941c"),
+        ("A24126552093", "Ananya Iyer", "CSE", "Year 1", "6afbfe85...941d"),
     ]
 
     y = 240
