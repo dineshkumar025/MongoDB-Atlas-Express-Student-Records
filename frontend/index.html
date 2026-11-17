@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MongoDB Atlas Configuration & Student Records | Question Q3</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2310b981'><path d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14.5v-9l6 4.5-6 4.5z'/></svg>">
+</head>
+<body>
+
+  <!-- Main Container -->
+  <div class="container">
+
+    <!-- Header Section -->
+    <header class="project-header">
+      <div class="academic-badge">ANITS • Full-Stack Web Development (23CM4121) • Case Study Q3</div>
+      <h1 class="main-title">MongoDB Atlas Configuration and Student Record Storage Using Express.js</h1>
+      <p class="subtitle">A practical demonstration of cloud database provisioning, Mongoose schema modeling, and record persistence.</p>
+      
+      <div class="meta-strip">
+        <span><strong>Student:</strong> P. Dinesh Kumar</span>
+        <span><strong>Roll No:</strong> A24126552101</span>
+        <span><strong>Target Database:</strong> <code>StudentDB</code></span>
+        <span><strong>Collection:</strong> <code>students</code></span>
+      </div>
+    </header>
+
+    <!-- Database Connectivity Status Panel -->
+    <section class="status-panel">
+      <div class="status-indicator">
+        <span class="status-dot" id="statusDot"></span>
+        <span class="status-label">Atlas Database Status:</span>
+        <strong id="statusText">Checking connection...</strong>
+      </div>
+      <div class="status-details" id="statusDetails">
+        <span>Host: <code id="statusHost">Connecting...</code></span>
+        <span>Records Stored: <strong id="recordCountBadge">0</strong></span>
+      </div>
+      <button class="btn btn-secondary btn-sm" id="btnCheckHealth" title="Ping database health endpoint">
+        🔄 Check Live Connection
+      </button>
+    </section>
+
+    <!-- Notification Toast Message -->
+    <div class="alert-box" id="alertBox" style="display: none;">
+      <span id="alertMessage"></span>
+      <button class="alert-close" id="alertClose">&times;</button>
+    </div>
+
+    <!-- Main Content Layout (Form & Records) -->
+    <main class="content-grid">
+
+      <!-- Form Section: Insert New Student Record -->
+      <section class="card form-card">
+        <div class="card-header">
+          <h2>Store New Student Record</h2>
+          <span class="step-badge">POST /api/students</span>
+        </div>
+        <p class="card-desc">Submits record via Express.js controller to be validated by Mongoose and stored as a BSON document in MongoDB Atlas.</p>
+
+        <form id="studentForm" novalidate>
+          <div class="form-group">
+            <label for="studentId">Student ID *</label>
+            <input type="text" id="studentId" name="studentId" placeholder="e.g. A24126552101" required autocomplete="off">
+            <small class="form-hint">Unique institutional roll number (enforced by unique index).</small>
+          </div>
+
+          <div class="form-group">
+            <label for="name">Student Full Name *</label>
+            <input type="text" id="name" name="name" placeholder="e.g. P. Dinesh Kumar" required autocomplete="off">
+          </div>
+
+          <div class="form-group">
+            <label for="email">Institutional Email *</label>
+            <input type="email" id="email" name="email" placeholder="e.g. dinesh.kumar@campus.edu" required autocomplete="off">
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-half">
+              <label for="department">Department *</label>
+              <select id="department" name="department" required>
+                <option value="Computer Science and Engineering">Computer Science and Engineering</option>
+                <option value="Information Technology">Information Technology</option>
+                <option value="Electronics and Communication Engineering">Electronics and Communication Engineering</option>
+                <option value="Mechanical Engineering">Mechanical Engineering</option>
+                <option value="Civil Engineering">Civil Engineering</option>
+              </select>
+            </div>
+
+            <div class="form-group col-half">
+              <label for="year">Academic Year *</label>
+              <select id="year" name="year" required>
+                <option value="1">1st Year</option>
+                <option value="2">2nd Year</option>
+                <option value="3" selected>3rd Year</option>
+                <option value="4">4th Year</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary" id="btnSubmit">
+              💾 Save to MongoDB Atlas
+            </button>
+            <button type="button" class="btn btn-outline" id="btnSeed">
+              🌱 Seed Sample Records
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <!-- Records Section: Display Stored Records -->
+      <section class="card records-card">
+        <div class="card-header space-between">
+          <div>
+            <h2>Stored Student Records</h2>
+            <span class="step-badge">GET /api/students</span>
+          </div>
+          <button class="btn btn-secondary btn-sm" id="btnRefresh">
+            🔄 Reload Records
+          </button>
+        </div>
+        <p class="card-desc">Real-time records retrieved from MongoDB Atlas <code>StudentDB.students</code> collection.</p>
+
+        <!-- Loading Spinner -->
+        <div class="loading-state" id="loadingState">
+          <div class="spinner"></div>
+          <p>Retrieving records from MongoDB Atlas...</p>
+        </div>
+
+        <!-- Table Container -->
+        <div class="table-container" id="tableContainer" style="display: none;">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Student ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Department</th>
+                <th>Year</th>
+                <th>MongoDB _id</th>
+              </tr>
+            </thead>
+            <tbody id="studentTableBody">
+              <!-- Populated dynamically via script.js -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Empty State Message -->
+        <div class="empty-state" id="emptyState" style="display: none;">
+          <div class="empty-icon">📭</div>
+          <h3>No Records Found in Atlas</h3>
+          <p>Use the form on the left or click "Seed Sample Records" to store initial demonstration records in MongoDB Atlas.</p>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="project-footer">
+      <p>Case Study Demonstration for <strong>Question 3</strong>: MongoDB Atlas Cloud Configuration &amp; Express.js Database Connection</p>
+      <p>Developed by <strong>P. Dinesh Kumar (Roll No: A24126552101)</strong> | Department of Computer Science &amp; Engineering | ANITS</p>
+    </footer>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

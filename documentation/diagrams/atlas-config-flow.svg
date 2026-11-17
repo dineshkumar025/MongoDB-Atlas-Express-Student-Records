@@ -1,0 +1,115 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 950 480" width="950" height="480">
+  <defs>
+    <linearGradient id="cfgHeader" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0284c7" />
+      <stop offset="100%" stop-color="#0369a1" />
+    </linearGradient>
+    <filter id="stepShadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="3" stdDeviation="3" flood-opacity="0.12" />
+    </filter>
+  </defs>
+
+  <rect width="950" height="480" fill="#f8fafc" />
+
+  <!-- Header -->
+  <rect x="0" y="0" width="950" height="65" fill="url(#cfgHeader)" />
+  <text x="30" y="30" font-family="'Segoe UI', Roboto, sans-serif" font-size="17" font-weight="bold" fill="#ffffff">6-STEP MONGODB ATLAS CLOUD CONFIGURATION WORKFLOW</text>
+  <text x="30" y="50" font-family="'Segoe UI', Roboto, sans-serif" font-size="12" fill="#e0f2fe">Standard Industry Setup: Cluster Provisioning, Security Configuration, Database/Collection Creation, and SRV Linking</text>
+
+  <!-- 6 Step Cards arranged in a 3x2 grid -->
+  <!-- Row 1 -->
+  <!-- Card 1 -->
+  <g transform="translate(40, 85)">
+    <rect width="270" height="170" rx="8" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#stepShadow)" />
+    <rect width="270" height="34" rx="8" fill="#0f172a" />
+    <rect y="17" width="270" height="17" fill="#0f172a" />
+    <text x="15" y="23" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="bold" fill="#38bdf8">STEP 1: Cloud Account Setup</text>
+    <text x="15" y="55" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="bold" fill="#0f172a">Register &amp; Create Project</text>
+    <text x="15" y="75" font-family="'Segoe UI', sans-serif" font-size="10" fill="#475569">• Navigate to cloud.mongodb.com</text>
+    <text x="15" y="93" font-family="'Segoe UI', sans-serif" font-size="10" fill="#475569">• Create an organization</text>
+    <text x="15" y="111" font-family="'Segoe UI', sans-serif" font-size="10" fill="#475569">• Initialize new Project: "Student-Records"</text>
+    <text x="15" y="129" font-family="'Segoe UI', sans-serif" font-size="10" fill="#475569">• Set Project Access Controls</text>
+    <rect x="15" y="142" width="240" height="18" rx="4" fill="#f1f5f9" />
+    <text x="25" y="155" font-family="'Consolas', monospace" font-size="9" fill="#0369a1">cloud.mongodb.com</text>
+  </g>
+
+  <!-- Card 2 -->
+  <g transform="translate(340, 85)">
+    <rect width="270" height="170" rx="8" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#stepShadow)" />
+    <rect width="270" height="34" rx="8" fill="#0f172a" />
+    <rect y="17" width="270" height="17" fill="#0f172a" />
+    <text x="15" y="23" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="bold" fill="#38bdf8">STEP 2: Deploy Shared Cluster</text>
+    <text x="15" y="55" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="bold" fill="#0f172a">Provision Free Tier (M0)</text>
+    <text x="15" y="75" font-family="'Segoe UI', sans-serif" font-size="10" fill="#475569">• Select M0 Free Sandbox (512MB RAM)</text>
+    <text x="15" y="93" font-family="'Segoe UI', sans-serif" font-size="10" fill="#475569">• Select Cloud Provider: AWS</text>
+    <text x="15" y="111" font-family="'Segoe UI', sans-serif" font-size="10" fill="#475569">• Region: ap-south-1 (Mumbai / closest)</text>
+    <text x="15" y="129" font-family="'Segoe UI', sans-serif" font-size="10" fill="#475569">• Name cluster: "Cluster0"</text>
+    <rect x="15" y="142" width="240" height="18" rx="4" fill="#f1f5f9" />
+    <text x="25" y="155" font-family="'Consolas', monospace" font-size="9" fill="#0369a1">M0 Shared Cluster • 3-Node Replica</text>
+  </g>
+
+  <!-- Card 3 -->
+  <g transform="translate(640, 85)">
+    <rect width="270" height="170" rx="8" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#stepShadow)" />
+    <rect width="270" height="34" rx="8" fill="#0f172a" />
+    <rect y="17" width="270" height="17" fill="#0f172a" />
+    <text x="15" y="23" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="bold" fill="#38bdf8">STEP 3: Configure Database User</text>
+    <text x="15" y="55" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="bold" fill="#0f172a">Security &gt; Database Access</text>
+    <text x="15" y="75" font-family="'Segoe UI', sans-serif" font-size="10" fill="#475569">• Authentication: Password (SCRAM)</text>
+    <text x="15" y="93" font-family="'Segoe UI', sans-serif" font-size="10" fill="#475569">• Create User: e.g. "dinesh_admin"</text>
+    <text x="15" y="111" font-family="'Segoe UI', sans-serif" font-size="10" fill="#475569">• Set secure alphanumeric password</text>
+    <text x="15" y="129" font-family="'Segoe UI', sans-serif" font-size="10" fill="#475569">• Built-in Role: "Read and write to any db"</text>
+    <rect x="15" y="142" width="240" height="18" rx="4" fill="#f1f5f9" />
+    <text x="25" y="155" font-family="'Consolas', monospace" font-size="9" fill="#059669">Role: readWriteAnyDatabase</text>
+  </g>
+
+  <!-- Row 2 -->
+  <!-- Card 4 -->
+  <g transform="translate(40, 275)">
+    <rect width="270" height="170" rx="8" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#stepShadow)" />
+    <rect width="270" height="34" rx="8" fill="#0f172a" />
+    <rect y="17" width="270" height="17" fill="#0f172a" />
+    <text x="15" y="23" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="bold" fill="#38bdf8">STEP 4: Network Access Security</text>
+    <text x="15" y="55" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="bold" fill="#0f172a">Security &gt; Network Access</text>
+    <text x="15" y="75" font-family="'Segoe UI', sans-serif" font-size="10" fill="#475569">• Click "Add IP Access List Entry"</text>
+    <text x="15" y="93" font-family="'Segoe UI', sans-serif" font-size="10" fill="#475569">• Choose "Allow Access from Anywhere"</text>
+    <text x="15" y="111" font-family="'Segoe UI', sans-serif" font-size="10" fill="#475569">• Sets CIDR: 0.0.0.0/0 (for dev/lab)</text>
+    <text x="15" y="129" font-family="'Segoe UI', sans-serif" font-size="10" fill="#475569">• Status changes from Pending to Active</text>
+    <rect x="15" y="142" width="240" height="18" rx="4" fill="#f1f5f9" />
+    <text x="25" y="155" font-family="'Consolas', monospace" font-size="9" fill="#d97706">CIDR: 0.0.0.0/0 (Active)</text>
+  </g>
+
+  <!-- Card 5 -->
+  <g transform="translate(340, 275)">
+    <rect width="270" height="170" rx="8" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#stepShadow)" />
+    <rect width="270" height="34" rx="8" fill="#0f172a" />
+    <rect y="17" width="270" height="17" fill="#0f172a" />
+    <text x="15" y="23" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="bold" fill="#38bdf8">STEP 5: Create Database &amp; Coll.</text>
+    <text x="15" y="55" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="bold" fill="#0f172a">Database &gt; Collections Tab</text>
+    <text x="15" y="75" font-family="'Segoe UI', sans-serif" font-size="10" fill="#475569">• Click "+ Create Database"</text>
+    <text x="15" y="93" font-family="'Segoe UI', sans-serif" font-size="10" fill="#475569">• Database Name: "StudentDB"</text>
+    <text x="15" y="111" font-family="'Segoe UI', sans-serif" font-size="10" fill="#475569">• Collection Name: "students"</text>
+    <text x="15" y="129" font-family="'Segoe UI', sans-serif" font-size="10" fill="#475569">• Optional: Allow auto-creation via Mongoose</text>
+    <rect x="15" y="142" width="240" height="18" rx="4" fill="#f1f5f9" />
+    <text x="25" y="155" font-family="'Consolas', monospace" font-size="9" fill="#7c3aed">StudentDB.students</text>
+  </g>
+
+  <!-- Card 6 -->
+  <g transform="translate(640, 275)">
+    <rect width="270" height="170" rx="8" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#stepShadow)" />
+    <rect width="270" height="34" rx="8" fill="#0f172a" />
+    <rect y="17" width="270" height="17" fill="#0f172a" />
+    <text x="15" y="23" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="bold" fill="#38bdf8">STEP 6: Extract SRV &amp; Connect</text>
+    <text x="15" y="55" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="bold" fill="#0f172a">Cluster &gt; Connect Button</text>
+    <text x="15" y="75" font-family="'Segoe UI', sans-serif" font-size="10" fill="#475569">• Choose "Drivers" &gt; "Node.js"</text>
+    <text x="15" y="93" font-family="'Segoe UI', sans-serif" font-size="10" fill="#475569">• Copy mongodb+srv:// connection URI</text>
+    <text x="15" y="111" font-family="'Segoe UI', sans-serif" font-size="10" fill="#475569">• Paste into .env file as MONGODB_URI</text>
+    <text x="15" y="129" font-family="'Segoe UI', sans-serif" font-size="10" fill="#475569">• Start server: "npm run start"</text>
+    <rect x="15" y="142" width="240" height="18" rx="4" fill="#f1f5f9" />
+    <text x="25" y="155" font-family="'Consolas', monospace" font-size="9" fill="#0284c7">mongodb+srv://&lt;user&gt;:&lt;pass&gt;@...</text>
+  </g>
+
+  <!-- Footer -->
+  <rect x="0" y="455" width="950" height="25" fill="#0f172a" />
+  <text x="475" y="471" font-family="'Segoe UI', sans-serif" font-size="10" fill="#94a3b8" text-anchor="middle">Figure 4: Complete 6-Step Implementation Roadmap for MongoDB Atlas Provisioning</text>
+</svg>

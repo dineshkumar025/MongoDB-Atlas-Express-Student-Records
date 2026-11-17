@@ -1,0 +1,26 @@
+{
+  "name": "mongodb-atlas-express-student-records",
+  "version": "1.0.0",
+  "description": "MongoDB Atlas Configuration and Student Record Storage Using Express.js - Case Study Question Q3",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "keywords": [
+    "mongodb-atlas",
+    "express",
+    "mongoose",
+    "student-records",
+    "cloud-database",
+    "case-study-q3"
+  ],
+  "author": "P. Dinesh Kumar (A24126552101)",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "mongoose": "^8.9.5"
+  }
+}

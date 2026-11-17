@@ -1,0 +1,173 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 950 520" width="950" height="520">
+  <defs>
+    <linearGradient id="cfHeader" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1e1e2f" />
+      <stop offset="100%" stop-color="#2d3748" />
+    </linearGradient>
+    <filter id="boxShadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="3" stdDeviation="3" flood-opacity="0.15" />
+    </filter>
+  </defs>
+
+  <rect width="950" height="520" fill="#f8fafc" />
+
+  <!-- Header -->
+  <rect x="0" y="0" width="950" height="65" fill="url(#cfHeader)" />
+  <text x="30" y="30" font-family="'Segoe UI', Roboto, sans-serif" font-size="17" font-weight="bold" fill="#38bdf8">MONGODB ATLAS &amp; EXPRESS.JS CONNECTION SEQUENCE FLOW</text>
+  <text x="30" y="50" font-family="'Segoe UI', Roboto, sans-serif" font-size="12" fill="#94a3b8">Detailed 7-Step Handshake, DNS SRV Seedlist Resolution, and Lifecycle Event Binding</text>
+
+  <!-- Step 1 -->
+  <g transform="translate(40, 90)">
+    <rect width="110" height="150" rx="8" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5" filter="url(#boxShadow)" />
+    <rect width="110" height="30" rx="8" fill="#0284c7" />
+    <rect y="15" width="110" height="15" fill="#0284c7" />
+    <text x="55" y="20" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle">Step 1</text>
+    <text x="55" y="55" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="bold" fill="#0f172a" text-anchor="middle">Environment</text>
+    <text x="55" y="70" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="bold" fill="#0f172a" text-anchor="middle">Configuration</text>
+    <text x="10" y="95" font-family="'Segoe UI', sans-serif" font-size="9" fill="#475569">• .env loaded</text>
+    <text x="10" y="110" font-family="'Segoe UI', sans-serif" font-size="9" fill="#475569">• Read MONGODB_URI</text>
+    <text x="10" y="125" font-family="'Segoe UI', sans-serif" font-size="9" fill="#475569">• Read DB_NAME</text>
+    <text x="10" y="140" font-family="'Segoe UI', sans-serif" font-size="9" fill="#0284c7">= 'StudentDB'</text>
+  </g>
+
+  <!-- Arrow 1-2 -->
+  <line x1="150" y1="165" x2="170" y2="165" stroke="#64748b" stroke-width="2" />
+  <polygon points="170,161 176,165 170,169" fill="#64748b" />
+
+  <!-- Step 2 -->
+  <g transform="translate(175, 90)">
+    <rect width="115" height="150" rx="8" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5" filter="url(#boxShadow)" />
+    <rect width="115" height="30" rx="8" fill="#0284c7" />
+    <rect y="15" width="115" height="15" fill="#0284c7" />
+    <text x="57" y="20" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle">Step 2</text>
+    <text x="57" y="55" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="bold" fill="#0f172a" text-anchor="middle">Mongoose</text>
+    <text x="57" y="70" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="bold" fill="#0f172a" text-anchor="middle">Invocation</text>
+    <text x="10" y="95" font-family="'Segoe UI', sans-serif" font-size="9" fill="#475569">• connectDB()</text>
+    <text x="10" y="110" font-family="'Segoe UI', sans-serif" font-size="9" fill="#475569">• mongoose.connect()</text>
+    <text x="10" y="125" font-family="'Segoe UI', sans-serif" font-size="9" fill="#475569">• retryWrites=true</text>
+    <text x="10" y="140" font-family="'Segoe UI', sans-serif" font-size="9" fill="#475569">• w: 'majority'</text>
+  </g>
+
+  <!-- Arrow 2-3 -->
+  <line x1="290" y1="165" x2="310" y2="165" stroke="#64748b" stroke-width="2" />
+  <polygon points="310,161 316,165 310,169" fill="#64748b" />
+
+  <!-- Step 3 -->
+  <g transform="translate(315, 90)">
+    <rect width="125" height="150" rx="8" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5" filter="url(#boxShadow)" />
+    <rect width="125" height="30" rx="8" fill="#7c3aed" />
+    <rect y="15" width="125" height="15" fill="#7c3aed" />
+    <text x="62" y="20" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle">Step 3</text>
+    <text x="62" y="55" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="bold" fill="#0f172a" text-anchor="middle">DNS SRV</text>
+    <text x="62" y="70" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="bold" fill="#0f172a" text-anchor="middle">Resolution</text>
+    <text x="10" y="95" font-family="'Segoe UI', sans-serif" font-size="9" fill="#475569">• _mongodb._tcp</text>
+    <text x="10" y="110" font-family="'Segoe UI', sans-serif" font-size="9" fill="#475569">• Queries 3 replica nodes</text>
+    <text x="10" y="125" font-family="'Segoe UI', sans-serif" font-size="9" fill="#475569">• TXT records lookup</text>
+    <text x="10" y="140" font-family="'Segoe UI', sans-serif" font-size="9" fill="#7c3aed">• cluster topology</text>
+  </g>
+
+  <!-- Arrow 3-4 -->
+  <line x1="440" y1="165" x2="460" y2="165" stroke="#64748b" stroke-width="2" />
+  <polygon points="460,161 466,165 460,169" fill="#64748b" />
+
+  <!-- Step 4 -->
+  <g transform="translate(465, 90)">
+    <rect width="125" height="150" rx="8" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5" filter="url(#boxShadow)" />
+    <rect width="125" height="30" rx="8" fill="#7c3aed" />
+    <rect y="15" width="125" height="15" fill="#7c3aed" />
+    <text x="62" y="20" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle">Step 4</text>
+    <text x="62" y="55" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="bold" fill="#0f172a" text-anchor="middle">TLS/SSL</text>
+    <text x="62" y="70" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="bold" fill="#0f172a" text-anchor="middle">Handshake</text>
+    <text x="10" y="95" font-family="'Segoe UI', sans-serif" font-size="9" fill="#475569">• Outbound Port 27017</text>
+    <text x="10" y="110" font-family="'Segoe UI', sans-serif" font-size="9" fill="#475569">• TLS 1.3 cert exchange</text>
+    <text x="10" y="125" font-family="'Segoe UI', sans-serif" font-size="9" fill="#475569">• Encrypted transport</text>
+    <text x="10" y="140" font-family="'Segoe UI', sans-serif" font-size="9" fill="#7c3aed">• IP allowlist check</text>
+  </g>
+
+  <!-- Arrow 4-5 -->
+  <line x1="590" y1="165" x2="610" y2="165" stroke="#64748b" stroke-width="2" />
+  <polygon points="610,161 616,165 610,169" fill="#64748b" />
+
+  <!-- Step 5 -->
+  <g transform="translate(615, 90)">
+    <rect width="125" height="150" rx="8" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5" filter="url(#boxShadow)" />
+    <rect width="125" height="30" rx="8" fill="#059669" />
+    <rect y="15" width="125" height="15" fill="#059669" />
+    <text x="62" y="20" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle">Step 5</text>
+    <text x="62" y="55" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="bold" fill="#0f172a" text-anchor="middle">SCRAM-SHA-256</text>
+    <text x="62" y="70" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="bold" fill="#0f172a" text-anchor="middle">Authentication</text>
+    <text x="10" y="95" font-family="'Segoe UI', sans-serif" font-size="9" fill="#475569">• Credentials verified</text>
+    <text x="10" y="110" font-family="'Segoe UI', sans-serif" font-size="9" fill="#475569">• Username/Password</text>
+    <text x="10" y="125" font-family="'Segoe UI', sans-serif" font-size="9" fill="#475569">• readWrite on StudentDB</text>
+    <text x="10" y="140" font-family="'Segoe UI', sans-serif" font-size="9" fill="#059669">• Session authorized</text>
+  </g>
+
+  <!-- Arrow 5-6 -->
+  <line x1="740" y1="165" x2="760" y2="165" stroke="#64748b" stroke-width="2" />
+  <polygon points="760,161 766,165 760,169" fill="#64748b" />
+
+  <!-- Step 6 -->
+  <g transform="translate(765, 90)">
+    <rect width="145" height="150" rx="8" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5" filter="url(#boxShadow)" />
+    <rect width="145" height="30" rx="8" fill="#059669" />
+    <rect y="15" width="145" height="15" fill="#059669" />
+    <text x="72" y="20" font-family="'Segoe UI', sans-serif" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle">Step 6 &amp; 7</text>
+    <text x="72" y="55" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="bold" fill="#0f172a" text-anchor="middle">Pool Active &amp;</text>
+    <text x="72" y="70" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="bold" fill="#0f172a" text-anchor="middle">Connected Event</text>
+    <text x="10" y="95" font-family="'Segoe UI', sans-serif" font-size="9" fill="#475569">• Connection pool opened</text>
+    <text x="10" y="110" font-family="'Segoe UI', sans-serif" font-size="9" fill="#475569">• readyState = 1 (Connected)</text>
+    <text x="10" y="125" font-family="'Segoe UI', sans-serif" font-size="9" fill="#475569">• Express listens on :5000</text>
+    <text x="10" y="140" font-family="'Segoe UI', sans-serif" font-size="9" fill="#059669">• Ready for CRUD I/O</text>
+  </g>
+
+  <!-- Detailed Connection String Anatomy Breakdown Below -->
+  <g transform="translate(40, 275)">
+    <rect width="870" height="195" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#boxShadow)" />
+    <rect width="870" height="35" rx="10" fill="#0f172a" />
+    <rect y="20" width="870" height="15" fill="#0f172a" />
+    <text x="20" y="24" font-family="'Segoe UI', sans-serif" font-size="13" font-weight="bold" fill="#38bdf8">ANATOMY OF THE MONGODB ATLAS SRV CONNECTION STRING</text>
+
+    <!-- Code Line Box -->
+    <rect x="20" y="50" width="830" height="38" rx="6" fill="#1e293b" />
+    <text x="35" y="74" font-family="'Consolas', monospace" font-size="13" fill="#ffffff">
+      <tspan fill="#38bdf8">mongodb+srv://</tspan>
+      <tspan fill="#4ade80">dinesh_admin</tspan>
+      <tspan fill="#94a3b8">:</tspan>
+      <tspan fill="#f43f5e">P@ssw0rd123</tspan>
+      <tspan fill="#94a3b8">@</tspan>
+      <tspan fill="#fbbf24">cluster0.abcde.mongodb.net</tspan>
+      <tspan fill="#94a3b8">/</tspan>
+      <tspan fill="#c084fc">StudentDB</tspan>
+      <tspan fill="#38bdf8">?retryWrites=true&amp;w=majority</tspan>
+    </text>
+
+    <!-- Breakdown Legend Elements -->
+    <g transform="translate(25, 105)">
+      <circle cx="10" cy="10" r="6" fill="#38bdf8" />
+      <text x="25" y="14" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="bold" fill="#0284c7">mongodb+srv://</text>
+      <text x="25" y="30" font-family="'Segoe UI', sans-serif" font-size="10" fill="#64748b">DNS Seedlist protocol enabling dynamic cluster shard discovery without hardcoding node IPs.</text>
+    </g>
+
+    <g transform="translate(25, 150)">
+      <circle cx="10" cy="10" r="6" fill="#4ade80" />
+      <text x="25" y="14" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="bold" fill="#059669">dinesh_admin : P@ssw0rd123</text>
+      <text x="25" y="30" font-family="'Segoe UI', sans-serif" font-size="10" fill="#64748b">Database User credentials created in Atlas Security &gt; Database Access with readWriteRole.</text>
+    </g>
+
+    <g transform="translate(460, 105)">
+      <circle cx="10" cy="10" r="6" fill="#fbbf24" />
+      <text x="25" y="14" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="bold" fill="#d97706">cluster0.abcde.mongodb.net</text>
+      <text x="25" y="30" font-family="'Segoe UI', sans-serif" font-size="10" fill="#64748b">Unique Cloud cluster hostname resolving to primary and secondary replica set members.</text>
+    </g>
+
+    <g transform="translate(460, 150)">
+      <circle cx="10" cy="10" r="6" fill="#c084fc" />
+      <text x="25" y="14" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="bold" fill="#9333ea">StudentDB ? retryWrites=true&amp;w=majority</text>
+      <text x="25" y="30" font-family="'Segoe UI', sans-serif" font-size="10" fill="#64748b">Target database override + write concern requiring acknowledgment from a majority of nodes.</text>
+    </g>
+  </g>
+
+  <!-- Footer -->
+  <rect x="0" y="490" width="950" height="30" fill="#0f172a" />
+  <text x="475" y="510" font-family="'Segoe UI', sans-serif" font-size="11" fill="#94a3b8" text-anchor="middle">Figure 2: Mongoose to MongoDB Atlas DNS SRV Seedlist Handshake &amp; Parameter Breakdown</text>
+</svg>
